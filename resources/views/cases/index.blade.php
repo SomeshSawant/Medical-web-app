@@ -93,17 +93,15 @@
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200 text-sm">
                     @php
-                        // Helper for sort URLs
-                        function sortUrl($column, $currentSort, $currentDirection) {
-                            $direction = ($currentSort === $column && $currentDirection === 'asc') ? 'desc' : 'asc';
-                            $params = array_merge(request()->query(), ['sort' => $column, 'direction' => $direction]);
-                            return route('cases.index', $params);
-                        }
+                        $sortUrl = function ($column) use ($sort, $direction) {
+                            $nextDir = ($sort === $column && $direction === 'asc') ? 'desc' : 'asc';
+                            return route('cases.index', array_merge(request()->query(), ['sort' => $column, 'direction' => $nextDir]));
+                        };
                     @endphp
                     <thead class="bg-gray-50 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         <tr>
                             <th class="px-6 py-3.5 text-left">
-                                <a href="{{ sortUrl('case_number', $sort, $direction) }}" class="flex items-center space-x-1 hover:text-gray-700">
+                                <a href="{{ $sortUrl('case_number') }}" class="flex items-center space-x-1 hover:text-gray-700">
                                     <span>Case Number</span>
                                     @if($sort === 'case_number')
                                         <span>{{ $direction === 'asc' ? '↑' : '↓' }}</span>
@@ -112,7 +110,7 @@
                             </th>
                             <th class="px-6 py-3.5 text-left">Patient Ref</th>
                             <th class="px-6 py-3.5 text-left">
-                                <a href="{{ sortUrl('surgeon_name', $sort, $direction) }}" class="flex items-center space-x-1 hover:text-gray-700">
+                                <a href="{{ $sortUrl('surgeon_name') }}" class="flex items-center space-x-1 hover:text-gray-700">
                                     <span>Surgeon Name</span>
                                     @if($sort === 'surgeon_name')
                                         <span>{{ $direction === 'asc' ? '↑' : '↓' }}</span>
@@ -121,7 +119,7 @@
                             </th>
                             <th class="px-6 py-3.5 text-left">Implant Type</th>
                             <th class="px-6 py-3.5 text-left">
-                                <a href="{{ sortUrl('status', $sort, $direction) }}" class="flex items-center space-x-1 hover:text-gray-700">
+                                <a href="{{ $sortUrl('status') }}" class="flex items-center space-x-1 hover:text-gray-700">
                                     <span>Status</span>
                                     @if($sort === 'status')
                                         <span>{{ $direction === 'asc' ? '↑' : '↓' }}</span>
@@ -129,7 +127,7 @@
                                 </a>
                             </th>
                             <th class="px-6 py-3.5 text-left">
-                                <a href="{{ sortUrl('priority', $sort, $direction) }}" class="flex items-center space-x-1 hover:text-gray-700">
+                                <a href="{{ $sortUrl('priority') }}" class="flex items-center space-x-1 hover:text-gray-700">
                                     <span>Priority</span>
                                     @if($sort === 'priority')
                                         <span>{{ $direction === 'asc' ? '↑' : '↓' }}</span>
@@ -137,7 +135,7 @@
                                 </a>
                             </th>
                             <th class="px-6 py-3.5 text-left">
-                                <a href="{{ sortUrl('surgery_date', $sort, $direction) }}" class="flex items-center space-x-1 hover:text-gray-700">
+                                <a href="{{ $sortUrl('surgery_date') }}" class="flex items-center space-x-1 hover:text-gray-700">
                                     <span>Surgery Date</span>
                                     @if($sort === 'surgery_date')
                                         <span>{{ $direction === 'asc' ? '↑' : '↓' }}</span>

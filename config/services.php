@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'nager_date' => [
+        'url' => env('PUBLIC_HOLIDAYS_API_URL', 'https://date.nager.at/api/v3/NextPublicHolidaysWorldwide'),
+    ],
+
 ];

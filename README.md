@@ -1,217 +1,282 @@
-# Medical Case Management System
+# Jajal Medical — Medical Case Management System
 
-A web application built in **Laravel** + **MySQL** / **Blade** to track medical device implant surgical cases from initial draft to clinical completion.
+A production-grade, secure web application built with **Laravel**, **MySQL**, and **Bootstrap 5** to manage surgical cases and implant device tracking from initial draft through clinical completion.
 
-Designed for medical device manufacturers and clinical field specialists to streamline surgical case logistics, maintain strict role-based access control (RBAC), and preserve data integrity and traceability.
-
----
-
-## Tech Stack
-
-- **Backend Framework**: Laravel 13 (PHP 8.4)
-- **Database**: MySQL (default) / SQLite (in-memory test suite)
-- **Frontend / Templating**: Laravel Blade, Tailwind CSS, Alpine.js, Vite
-- **API Authentication**: Laravel Sanctum (Bearer Tokens)
-- **Web Authentication**: Laravel Breeze (Session-based RBAC)
-- **Automated Testing**: PHPUnit (100% passing feature test suite)
-- **External Integration**: Laravel HTTP Client calling Nager.Date Public Holidays API
+Developed to satisfy all requirements of the **Jajal Medical Software Developer Intern Practical Assignment (October 8, 2026)**.
 
 ---
 
-## User Roles & Permission Matrix
+## 1. Project Overview & Clinical Context
 
-The application enforces role-based authorization using a dedicated **Laravel Policy** (`CasePolicy`) and Form Requests.
-
-| Role | View Cases | Create Cases | Edit Cases | Change Status | Delete Cases | Notes |
-|---|:---:|:---:|:---:|:---:|:---:|---|
-| **Admin** | Yes | Yes | Yes | Yes | **Yes** | Full clinical administration and deletion |
-| **Viewer** | Yes | No | No | No | **No** | Read-only auditor; delete/create blocked with `403` |
-| **Engineer** *(Bonus)* | Yes | Yes | Yes | Yes | **No** | Technical specialist; can update status, cannot delete |
+In medical device logistics and orthopedic surgical workflows, accuracy, data integrity, and strict traceability are paramount. **Jajal Medical Case Management System** provides clinical teams, sales representatives, and quality assurance auditors with:
+- A real-time, database-driven clinical case management dashboard.
+- Strict role-based access control (RBAC) separating administrative actions from read-only auditing.
+- Search, filtering, and sorting across surgical implant procedures.
+- A REST API authenticated via Laravel Sanctum personal access tokens.
+- Complete regulatory audit trail metadata with patient de-identification (dummy references).
 
 ---
 
-## Test Login Credentials (Dummy Data Only)
+## 2. Technology Stack
 
-All dummy users and sample cases are automatically created by `php artisan db:seed`.
+- **Backend**: Laravel 11 / 12 (PHP 8.4)
+- **Database**: MySQL (Default production/local setup) / SQLite (zero-config local dev & automated testing)
+- **Frontend / UI**: Laravel Blade templates, **Bootstrap 5.3**, custom CSS, and **Bootstrap Icons 1.11**
+- **Authentication**: Laravel Breeze (session-based web auth) + Laravel Sanctum (Bearer token REST API)
+- **Authorization**: Laravel Policies (`CasePolicy`) and Gate authorization
+- **Validation**: Form Requests (`StoreCaseRequest`, `UpdateCaseRequest`) with unique constraint validation
+- **ORM & Data Layer**: Laravel Eloquent with eager loading relationships to prevent N+1 query overhead
+- **Automated Testing**: PHPUnit feature test suite
+- **Bonus Integrations**: Nager.Date Public Holidays API via Laravel HTTP Client with timeout & graceful fallback
 
-| Role | Email | Password | Allowed Capabilities |
+---
+
+## 3. User Roles & Permission Matrix
+
+The application strictly enforces server-side authorization via `App\Policies\CasePolicy`. Permissions are never enforced solely through frontend UI hiding:
+
+| Feature / Action | Admin | Viewer | Engineer *(Bonus)* | Enforcement Mechanism |
+|---|:---:|:---:|:---:|---|
+| **View Dashboard & Statistics** | Yes | Yes | Yes | `CasePolicy@viewAny` |
+| **Browse, Search & Filter Cases** | Yes | Yes | Yes | `CasePolicy@viewAny` |
+| **View Individual Case Details** | Yes | Yes | Yes | `CasePolicy@view` |
+| **Create New Cases** | **Yes** | **No** (403) | **Yes** | `CasePolicy@create`, `StoreCaseRequest` |
+| **Edit Existing Cases** | **Yes** | **No** (403) | **Yes** | `CasePolicy@update`, `UpdateCaseRequest` |
+| **Change Case Status** | **Yes** | **No** (403) | **Yes** | `CasePolicy@update` |
+| **Delete Cases** | **Yes** | **No** (403) | **No** (403) | `CasePolicy@delete` |
+| **REST API Read Operations** | Yes | Yes | Yes | Sanctum Bearer Token |
+| **REST API Write Operations** | **Yes** | **No** (403) | **Yes** | Sanctum Bearer Token + Policy |
+
+---
+
+## 4. Test Login Credentials (Local Dummy Data)
+
+All test accounts are automatically provisioned when executing `php artisan db:seed`. No real patient health information (PHI) or real passwords are committed to source control.
+
+| Role | Email Address | Password | Intended Evaluation Purpose |
 |---|---|---|---|
-| **Admin** | `admin@example.com` | `password123` | View, Create, Edit, Status Transition, Delete |
-| **Viewer** | `viewer@example.com` | `password123` | View cases, View single case details |
-| **Engineer** *(Bonus)* | `engineer@example.com` | `password123` | View, Create, Edit, Status Transition (No Delete) |
+| **Admin** | `admin@jajalmedical.test` | `Admin@12345` | Full administrative control: Create, Edit, Status Transition, Delete |
+| **Viewer** | `viewer@jajalmedical.test` | `Viewer@12345` | Read-only auditor: Browse, Search, View Details; Blocked from write actions |
+| **Engineer** *(Bonus)* | `engineer@jajalmedical.test` | `Engineer@12345` | Technical specialist: Create, Edit, Transition Status; Blocked from Delete |
 
-> **Note**: No real patient or protected health information (PHI) is used in this repository. All clinical numbers and names are synthetic dummy test records.
-
----
-
-## Features & Screens
-
-1. **Authentication (Login / Logout)**:
-   - Built on Laravel Breeze with secure session management.
-   - Non-authenticated visitors are automatically blocked and redirected to `/login`.
-   - Clear validation error messages displayed for incorrect credentials.
-
-2. **Clinical Dashboard (`/dashboard`)**:
-   - Status metric cards for: **Total Cases**, **Planning**, **In Review**, **Approved**, and **Completed** (plus **Draft** and **Cancelled**).
-   - Recent cases table with direct links and status badges.
-   - User role indicator pill customized to active session privileges.
-
-3. **Case Directory (`/cases`)**:
-   - Paginated table showing **10 cases per page**.
-   - Live **Search** by Case Number or Surgeon Name.
-   - **Filter** dropdown by Case Status.
-   - *(Bonus)* **Filter** by Priority (`Low`, `Medium`, `High`) and **Column Sorting** (Case Number, Surgeon, Status, Priority, Surgery Date).
-   - Dynamic action buttons: View (all), Edit (Admin & Engineer), Delete (Admin only with confirm prompt).
-
-4. **Reusable Create & Edit Case Form (`/cases/create`, `/cases/{id}/edit`)**:
-   - Reused Blade form partial (`resources/views/cases/_form.blade.php`).
-   - Field-level validation error messages displayed alongside each input.
-   - Pre-populated fields on edit with unique rule ignoring current case.
-   - *(Bonus)* Live integration displaying upcoming public holidays next to the Surgery Date field via Nager.Date API.
-
-5. **Case Details Screen (`/cases/{id}`)**:
-   - Full specification overview: Case Number, Patient Reference dummy code, Surgeon Name, Implant Device, Status, Priority, Surgery Date.
-   - Audit trail metadata: Created by (Name, Email, Role) and timestamp logs.
-   - Server-enforced Delete button strictly restricted to Admin users (returns `403 Forbidden` if unauthorized user attempts request).
+> **Quick-Fill Feature**: The login screen (`/login`) includes one-click buttons to automatically fill these test credentials for rapid evaluation.
 
 ---
 
-## REST API Documentation
+## 5. Prerequisites
 
-All API endpoints return JSON in a consistent schema and use standard HTTP status codes:
-- `200 OK`: Request succeeded.
-- `201 Created`: Resource successfully created.
-- `401 Unauthorized`: Missing or invalid Sanctum token.
-- `403 Forbidden`: Authenticated user lacks role permissions.
-- `404 Not Found`: Case not found.
-- `422 Unprocessable Entity`: Field-level validation failed.
+Before installing, ensure your environment has:
+- **PHP** >= 8.2 (PHP 8.4 recommended) with extensions: `pdo`, `pdo_mysql`, `pdo_sqlite`, `mbstring`, `openssl`, `curl`, `fileinfo`.
+- **Composer** (v2.x)
+- **Node.js** >= 18 and **npm**
+- **MySQL** (v8.0+ or MariaDB 10.4+) or **SQLite** (bundled with PHP)
 
-### Standard Response Envelope
-```json
-{
-  "success": true,
-  "message": "Medical cases retrieved successfully.",
-  "data": { ... }
-}
+---
+
+## 6. Installation & Setup Instructions (Windows / Linux / macOS)
+
+### Step 1: Clone or Navigate to Project Directory
+```powershell
+cd C:\Users\soham\.gemini\antigravity\scratch\medical-case-management
 ```
 
-### Endpoints Table
-
-| Method | Endpoint | Purpose | Access Control | Headers Required |
-|---|---|---|---|---|
-| `POST` | `/api/login` | Authenticate and obtain Sanctum Bearer token | Anyone | `Content-Type: application/json` |
-| `POST` | `/api/logout` | Revoke active API token | Logged-in | `Authorization: Bearer <token>` |
-| `GET` | `/api/user` | Get profile of logged-in user | Logged-in | `Authorization: Bearer <token>` |
-| `GET` | `/api/cases` | List cases (paginated; supports `search`, `status`, `priority`) | Admin, Viewer, Engineer | `Authorization: Bearer <token>` |
-| `POST` | `/api/cases` | Create a new medical case | Admin, Engineer | `Authorization: Bearer <token>` |
-| `GET` | `/api/cases/{id}` | Retrieve details for a single case | Admin, Viewer, Engineer | `Authorization: Bearer <token>` |
-| `PUT` | `/api/cases/{id}` | Update an existing medical case | Admin, Engineer | `Authorization: Bearer <token>` |
-| `DELETE` | `/api/cases/{id}` | Permanently delete a case | **Admin only** | `Authorization: Bearer <token>` |
-
-> **Postman Collection**: A complete, ready-to-import Postman collection is exported at [`postman_collection.json`](postman_collection.json).
-
----
-
-## Setup & Installation Guide
-
-Follow these steps to run the application locally:
-
-### 1. Clone the repository
-```bash
-git clone <repository-url>
-cd medical-case-management
-```
-
-### 2. Install PHP dependencies
+### Step 2: Install Dependencies
 ```bash
 composer install
+npm install
 ```
 
-### 3. Environment configuration
+### Step 3: Environment Configuration
+Copy the sample environment file and generate a unique application encryption key:
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-Configure your database in `.env` (MySQL or SQLite):
-```env
-# MySQL configuration
+### Step 4: Configure the Database
+
+#### Option A: MySQL (Default Standard Configuration)
+1. Start your local MySQL service (e.g. via XAMPP, WampServer, Docker, or native Windows MySQL service).
+2. Create the database in MySQL:
+```sql
+CREATE DATABASE medical_case_management CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+3. Update your `.env` database parameters:
+```dotenv
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=medical_case_management
 DB_USERNAME=root
-DB_PASSWORD=
-
-# Or quick local SQLite:
-# DB_CONNECTION=sqlite
+DB_PASSWORD=your_mysql_password
 ```
 
-### 4. Run database migrations & seeders
+#### Option B: SQLite (Instant Zero-Config Alternative)
+If MySQL is not installed on the reviewer machine, SQLite runs out of the box with zero external services required:
+```dotenv
+DB_CONNECTION=sqlite
+```
+*(The SQLite database file is located at `database/database.sqlite`.)*
+
+### Step 5: Run Database Migrations & Seed Demo Records
+Execute the safe migration command to build all database tables and seed both required user accounts plus 26+ fictional medical cases:
 ```bash
 php artisan migrate:fresh --seed
 ```
-*This creates the schema and seeds 3 user accounts and 26 dummy medical cases.*
 
-### 5. Compile frontend assets (Optional if using committed build)
-The production assets are already pre-compiled in `public/build/`. If you want to re-compile or run development watch:
+### Step 6: Start the Development Server
+You can launch the application server using standard Artisan:
 ```bash
-npm install
-npm run build
+php artisan serve
 ```
+The application will be accessible at: **`http://localhost:8000`**
 
-### 6. Start the local server
-Use the included pre-configured launcher (which ensures SQLite/MySQL drivers are loaded):
-```bash
-# In PowerShell:
-.\serve.ps1
-
-# In Windows Command Prompt (CMD) or Double-Click:
-serve.bat
-
-# Or directly via PHP:
-php -c php.ini artisan serve
-```
-Open **[http://localhost:8000](http://localhost:8000)** in your browser and sign in using `admin@example.com` / `password123`.
+*(On Windows, pre-configured launcher scripts `serve.bat` or `serve.ps1` are also included in the repository root for one-click startup).*
 
 ---
 
-## Running Automated Tests
+## 7. REST API Documentation & Authorization Rules
 
-Run the complete feature test suite using PHPUnit / Artisan:
+The REST API is secured with **Laravel Sanctum Bearer Tokens** and produces standardized JSON envelopes.
 
+### Standard Response Envelope Formats
+
+#### Success Response (`200 OK` or `201 Created`):
+```json
+{
+  "success": true,
+  "message": "Operation completed successfully.",
+  "data": { ... }
+}
+```
+
+#### Validation Error (`422 Unprocessable Entity`):
+```json
+{
+  "success": false,
+  "message": "The given data was invalid.",
+  "errors": {
+    "case_number": [
+      "The case number has already been taken."
+    ]
+  }
+}
+```
+
+#### Authorization Error (`403 Forbidden`):
+```json
+{
+  "success": false,
+  "message": "Unauthorized: Viewers cannot delete cases.",
+  "data": null
+}
+```
+
+### API Endpoints Table
+
+| HTTP Method | Endpoint | Authorization | Description |
+|:---:|---|:---:|---|
+| `POST` | `/api/login` | Public | Authenticates credentials and returns a Sanctum Bearer token and user info |
+| `POST` | `/api/logout` | Authenticated Bearer | Revokes the current token |
+| `GET` | `/api/cases` | Admin & Viewer | Returns paginated list of cases (10/page), supports `search`, `status`, `priority` |
+| `POST` | `/api/cases` | **Admin only** | Registers a new medical case (HTTP 201 on success, 422 on validation failure) |
+| `GET` | `/api/cases/{id}` | Admin & Viewer | Retrieves full details of a specific case (HTTP 404 if not found) |
+| `PUT` | `/api/cases/{id}` | **Admin only** | Updates case specifications; uniqueness check ignores current case ID |
+| `DELETE` | `/api/cases/{id}` | **Admin only** | Permanently deletes a case (HTTP 403 for Viewer) |
+
+### cURL Examples
+
+#### 1. Login as Admin to Obtain Bearer Token:
+```bash
+curl -X POST http://localhost:8000/api/login \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@jajalmedical.test","password":"Admin@12345"}'
+```
+
+#### 2. Retrieve Paginated Cases:
+```bash
+curl -X GET "http://localhost:8000/api/cases?search=Titanium&status=Planning" \
+  -H "Accept: application/json" \
+  -H "Authorization: Bearer <YOUR_TOKEN>"
+```
+
+#### 3. Create a Case (Admin):
+```bash
+curl -X POST http://localhost:8000/api/cases \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <ADMIN_TOKEN>" \
+  -d '{
+    "case_number": "CASE-9050",
+    "patient_reference": "PAT-9912",
+    "surgeon_name": "Dr. Eleanor Vance",
+    "implant_type": "Titanium Hip Stem",
+    "status": "Planning",
+    "priority": "High",
+    "surgery_date": "2026-11-20"
+  }'
+```
+
+---
+
+## 8. Importing the Postman Collection
+
+An importable Postman collection is included in the project root:
+- File: **`postman_collection.json`**
+
+### Import Steps:
+1. Open Postman.
+2. Click **Import** in the upper left corner.
+3. Drag and drop or browse to `postman_collection.json`.
+4. The collection **Jajal Medical — Medical Case Management API** will appear.
+5. In the collection variables, verify `base_url` is set to `http://localhost:8000`.
+6. Run the **Login (Admin)** request. A test script automatically captures the Sanctum Bearer token and stores it into the collection `{{token}}` variable for subsequent requests.
+
+---
+
+## 9. Automated Testing Suite
+
+The application includes comprehensive feature tests verifying authentication, authorization, CRUD lifecycle, unique constraints, and the REST API.
+
+### Run All Tests:
 ```bash
 php artisan test
 ```
 
-### Test Coverage Highlights
-All 6 mandatory feature requirements and bonus scenarios are verified:
-1. `test_valid_login_succeeds` — Valid credentials authenticate and redirect to dashboard.
-2. `test_invalid_login_is_rejected` — Invalid credentials rejected with session error.
-3. `test_guest_cannot_open_case_pages_or_apis` — Unauthenticated guests redirected on web or returned `401` on API.
-4. `test_admin_can_create_a_case` — Admin creates case with audit attribution.
-5. `test_creating_a_case_with_a_duplicate_case_number_fails` — Duplicate Case Number blocked with `422` validation error.
-6. `test_viewer_cannot_delete_a_case` — Viewer blocked from deletion with `403 Forbidden` on both Web and API.
-7. `test_viewer_cannot_create_a_case` — Viewer blocked from creating cases (`403`).
-8. `test_engineer_can_create_and_edit_but_cannot_delete` — Bonus Engineer role verified.
-9. `test_case_list_search_and_filters` — Case directory search and status filtering verified.
-10. `MedicalCaseApiTest` — Complete REST API test coverage for login, token revoke, pagination, and CRUD.
+### Core Verification Coverage:
+- `test_valid_login_succeeds`: Verifies successful session login.
+- `test_invalid_login_is_rejected`: Rejects bad credentials with session errors.
+- `test_guest_cannot_open_case_pages_or_apis`: Verifies unauthenticated redirection and HTTP 401 JSON API responses.
+- `test_admin_can_create_a_case`: Verifies case creation and database persistence.
+- `test_creating_a_case_with_a_duplicate_case_number_fails`: Validates HTTP 422 JSON validation errors and constraint integrity.
+- `test_viewer_cannot_delete_a_case`: Verifies Viewer receives HTTP 403 Forbidden.
+- `test_viewer_cannot_create_a_case`: Verifies Viewer creation attempt blocked with HTTP 403.
+- `test_admin_can_delete_a_case`: Verifies Admin can delete cases.
+- `test_engineer_can_create_and_edit_but_cannot_delete`: Verifies bonus Engineer role capabilities.
+- `test_case_list_search_and_filters`: Validates search by surgeon and status filtering.
+- `test_api_login_returns_token_and_user_profile`: Validates Sanctum token generation.
+- `test_api_cases_list_returns_paginated_data`: Validates pagination structure (10 items/page).
+- `test_api_admin_can_create_case`: Validates API case creation.
+- `test_api_update_case`: Validates API case updates.
+- `test_api_viewer_cannot_delete_case`: Validates API Viewer 403 response.
 
 ---
 
-## Bonus Implementations (Extra Credit)
+## 10. Security Notes & Best Practices
 
-- [x] **Third Role (Engineer)**: Implemented `engineer` role capable of creating, editing, and advancing case statuses, while strictly barred from case deletion.
-- [x] **Case List Sorting & Priority Filter**: Case directory supports sorting by any table header and filtering by Priority.
-- [x] **Public Holiday API Integration**: Integrated Nager.Date API (`https://date.nager.at`) via Laravel HTTP Client with a 3-second timeout and graceful fault handling.
-- [x] **AWS Deployment Architecture Documentation**: Half-page production cloud architecture guide at [`docs/deployment.md`](docs/deployment.md) detailing EC2, Multi-AZ RDS MySQL, S3, Security Groups, Secrets Manager, and ACM/HTTPS.
-- [x] **Medical Software Traceability Matrix**: Located at [`docs/traceability.md`](docs/traceability.md) linking requirements to code and test verifications.
-- [x] **Database Schema Documentation**: Detailed data dictionary and Mermaid ER diagram at [`docs/database.md`](docs/database.md).
+- **Role-Based Access Control**: Enforced using `App\Policies\CasePolicy` on every web and API route.
+- **Server-Side Creator Attribution**: `created_by` is assigned directly from `$request->user()->id`; client-submitted creator IDs are never trusted.
+- **Mass Assignment Protection**: Only audited fields are specified in `$fillable`.
+- **SQL Injection Prevention**: All queries utilize Eloquent ORM parameterized bindings.
+- **CSRF Protection**: Enabled on all web forms via `@csrf` Blade directives.
+- **Password Security**: Passwords are saved using Laravel's native Bcrypt / Argon2id hashing algorithms.
+- **Patient Privacy**: No real patient names or protected health information (PHI) are stored. De-identified dummy identifiers (e.g. `PAT-0042`) are strictly enforced.
 
 ---
 
-## Assumptions & Known Limitations
+## 11. Documentation Index
 
-1. **Patient Data Privacy**: Per assignment specifications, patient references use synthetic alphanumeric codes (e.g. `PAT-NX401`) rather than real patient names or health identifiers.
-2. **Public Holiday API Availability**: If the external Nager.Date API is offline or times out (>3s), the application catches the exception gracefully, logs the event, and renders the case form without blocking clinical workflow.
-3. **Database Portability**: The migration uses standard Eloquent Schema builder syntax compatible with MySQL in production and in-memory SQLite for high-speed automated testing.
+- [Database Architecture & ER Diagram](docs/database.md): Schema specifications, indexes, foreign keys, and Mermaid ER diagram.
+- [Requirement Traceability Matrix](docs/traceability.md): Bidirectional mapping of requirements REQ-001 through REQ-010 to code and automated tests.
+- [Cloud Deployment Blueprint](docs/deployment.md): Architecture for AWS EC2, Amazon RDS Multi-AZ MySQL, ALB with SSL, and KMS secret management.

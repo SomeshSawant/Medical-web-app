@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "b3852f82-medical-case-mgmt-api",
-		"name": "Medical Case Management API",
-		"description": "Postman API Collection for Medical Case Management with Laravel Sanctum authentication and complete CRUD operations.",
+		"_postman_id": "b3852f82-jajal-medical-case-mgmt-api",
+		"name": "Jajal Medical — Medical Case Management API",
+		"description": "Postman API Collection for Jajal Medical Case Management with Laravel Sanctum Bearer authentication, role-based access control, and complete CRUD operations.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"variable": [
@@ -51,7 +51,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"password123\"\n}"
+							"raw": "{\n    \"email\": \"admin@jajalmedical.test\",\n    \"password\": \"Admin@12345\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/login",
@@ -90,7 +90,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"viewer@example.com\",\n    \"password\": \"password123\"\n}"
+							"raw": "{\n    \"email\": \"viewer@jajalmedical.test\",\n    \"password\": \"Viewer@12345\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/login",

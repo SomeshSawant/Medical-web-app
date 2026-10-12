@@ -1,0 +1,275 @@
+/**
+ * Jajal Medical — Medical Case Management System
+ * Custom Design System Stylesheet
+ * 
+ * Palette:
+ * - Navy-Blue Primary: #0c2340 (Main Header/Sidebar), #14355a (Brand Accent)
+ * - Restrained Teal: #0d9488 (Interactive Highlights), #0f766e (Darker Teal)
+ * - Light Surfaces: #ffffff (Cards/Tables), #f8fafc (Body Background)
+ * - Muted Borders: #e2e8f0
+ */
+
+:root {
+    --jm-navy: #0c2340;
+    --jm-navy-dark: #081728;
+    --jm-navy-light: #16365c;
+    --jm-navy-hover: #1f4777;
+    --jm-teal: #0d9488;
+    --jm-teal-hover: #0f766e;
+    --jm-teal-light: #ccfbf1;
+    --jm-teal-text: #115e59;
+    --jm-bg: #f8fafc;
+    --jm-card-bg: #ffffff;
+    --jm-border: #e2e8f0;
+    --jm-text-main: #1e293b;
+    --jm-text-muted: #64748b;
+    --jm-sidebar-width: 260px;
+}
+
+body {
+    background-color: var(--jm-bg);
+    color: var(--jm-text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Sidebar Styling */
+.jm-sidebar {
+    width: var(--jm-sidebar-width);
+    background: linear-gradient(180deg, var(--jm-navy-dark) 0%, var(--jm-navy) 100%);
+    color: #f1f5f9;
+    min-height: 100vh;
+    transition: all 0.3s ease;
+    z-index: 1030;
+}
+
+.jm-sidebar-brand {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.jm-brand-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--jm-teal) 0%, #14b8a6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1.25rem;
+    box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.3);
+}
+
+.jm-sidebar .nav-link {
+    color: #cbd5e1;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: 6px;
+    margin: 0.2rem 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.jm-sidebar .nav-link:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.jm-sidebar .nav-link.active {
+    color: #ffffff;
+    background: var(--jm-teal);
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.jm-sidebar .nav-heading {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+    padding: 1rem 1.5rem 0.4rem;
+    font-weight: 700;
+}
+
+/* Main Content Area */
+.jm-main-wrapper {
+    flex: 1;
+    min-width: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Top Navbar */
+.jm-topbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--jm-border);
+    padding: 0.75rem 1.5rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+}
+
+/* Healthcare Cards */
+.jm-card {
+    background-color: var(--jm-card-bg);
+    border: 1px solid var(--jm-border);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.jm-card-stat {
+    border-top: 3px solid transparent;
+}
+
+.jm-card-stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+}
+
+.jm-card-stat.border-total { border-top-color: var(--jm-navy); }
+.jm-card-stat.border-planning { border-top-color: #f59e0b; }
+.jm-card-stat.border-review { border-top-color: #3b82f6; }
+.jm-card-stat.border-approved { border-top-color: #6366f1; }
+.jm-card-stat.border-completed { border-top-color: #10b981; }
+
+.jm-stat-icon-wrapper {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+/* Buttons */
+.btn-jajal-primary {
+    background-color: var(--jm-navy);
+    border-color: var(--jm-navy);
+    color: #ffffff;
+    font-weight: 500;
+}
+.btn-jajal-primary:hover, .btn-jajal-primary:focus {
+    background-color: var(--jm-navy-hover);
+    border-color: var(--jm-navy-hover);
+    color: #ffffff;
+}
+
+.btn-jajal-teal {
+    background-color: var(--jm-teal);
+    border-color: var(--jm-teal);
+    color: #ffffff;
+    font-weight: 500;
+}
+.btn-jajal-teal:hover, .btn-jajal-teal:focus {
+    background-color: var(--jm-teal-hover);
+    border-color: var(--jm-teal-hover);
+    color: #ffffff;
+}
+
+/* Badges */
+.badge-status-planning {
+    background-color: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+.badge-status-review {
+    background-color: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #bfdbfe;
+}
+.badge-status-approved {
+    background-color: #e0e7ff;
+    color: #3730a3;
+    border: 1px solid #c7d2fe;
+}
+.badge-status-completed {
+    background-color: #d1fae5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+.badge-status-draft {
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+.badge-status-cancelled {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.badge-priority-high {
+    background-color: #ffe4e6;
+    color: #9f1239;
+    border: 1px solid #fecdd3;
+}
+.badge-priority-medium {
+    background-color: #fef9c3;
+    color: #854d0e;
+    border: 1px solid #fef08a;
+}
+.badge-priority-low {
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+
+/* Tables */
+.jm-table {
+    margin-bottom: 0;
+}
+.jm-table thead th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--jm-border);
+    padding: 0.75rem 1rem;
+    white-space: nowrap;
+}
+.jm-table tbody td {
+    padding: 0.85rem 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.875rem;
+}
+.jm-table tbody tr:hover td {
+    background-color: #f8fafc;
+}
+
+/* Form Styling */
+.form-label {
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.35rem;
+}
+.form-control, .form-select {
+    border-color: #cbd5e1;
+    font-size: 0.875rem;
+    border-radius: 6px;
+    padding: 0.55rem 0.75rem;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--jm-teal);
+    box-shadow: 0 0 0 0.2rem rgba(13, 148, 136, 0.15);
+}
+
+/* Responsive utilities */
+@media (max-width: 991.98px) {
+    .jm-sidebar {
+        display: none;
+    }
+}

@@ -24,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(MedicalCase::class, CasePolicy::class);
-        Paginator::useTailwind();
+        Paginator::useBootstrapFive();
     }
 }

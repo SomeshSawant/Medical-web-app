@@ -14,13 +14,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Default passwords can be customized via environment or default to standard dummy password
-        $adminPassword = env('SEED_ADMIN_PASSWORD', 'password123');
-        $viewerPassword = env('SEED_VIEWER_PASSWORD', 'password123');
-        $engineerPassword = env('SEED_ENGINEER_PASSWORD', 'password123');
+        // Demo account passwords matching Jajal Medical assignment requirements
+        $adminPassword = env('SEED_ADMIN_PASSWORD', 'Admin@12345');
+        $viewerPassword = env('SEED_VIEWER_PASSWORD', 'Viewer@12345');
+        $engineerPassword = env('SEED_ENGINEER_PASSWORD', 'Engineer@12345');
 
-        $admin = User::firstOrCreate(
-            ['email' => 'admin@example.com'],
+        // Required Demo Accounts
+        $admin = User::updateOrCreate(
+            ['email' => 'admin@jajalmedical.test'],
             [
                 'name' => 'Dr. Robert Carter (Admin)',
                 'password' => Hash::make($adminPassword),
@@ -29,8 +30,8 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $viewer = User::firstOrCreate(
-            ['email' => 'viewer@example.com'],
+        $viewer = User::updateOrCreate(
+            ['email' => 'viewer@jajalmedical.test'],
             [
                 'name' => 'Auditor Sarah Lynn (Viewer)',
                 'password' => Hash::make($viewerPassword),
@@ -39,12 +40,33 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $engineer = User::firstOrCreate(
-            ['email' => 'engineer@example.com'],
+        $engineer = User::updateOrCreate(
+            ['email' => 'engineer@jajalmedical.test'],
             [
                 'name' => 'Marcus Vance (Engineer)',
                 'password' => Hash::make($engineerPassword),
                 'role' => User::ROLE_ENGINEER,
+                'email_verified_at' => now(),
+            ]
+        );
+
+        // Fallback demo accounts for backward compatibility
+        User::updateOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => 'Dr. Robert Carter (Admin Legacy)',
+                'password' => Hash::make($adminPassword),
+                'role' => User::ROLE_ADMIN,
+                'email_verified_at' => now(),
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'viewer@example.com'],
+            [
+                'name' => 'Auditor Sarah Lynn (Viewer Legacy)',
+                'password' => Hash::make($viewerPassword),
+                'role' => User::ROLE_VIEWER,
                 'email_verified_at' => now(),
             ]
         );

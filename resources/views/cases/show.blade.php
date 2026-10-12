@@ -1,174 +1,195 @@
-<x-appLayout>
+<x-app-layout>
     <x-slot name="header">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-y-0">
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
             <div>
-                <div class="flex items-center space-x-3">
-                    <h2 class="font-bold text-2xl text-gray-800 leading-tight">
-                        Case: {{ $case->case_number }}
-                    </h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-1 small">
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="text-decoration-none">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('cases.index') }}" class="text-decoration-none">Cases</a></li>
+                        <li class="breadcrumb-item active font-monospace" aria-current="page">{{ $case->case_number }}</li>
+                    </ol>
+                </nav>
+                <div class="d-flex align-items-center gap-2">
+                    <h1 class="h4 fw-bold text-dark mb-0 font-monospace">{{ $case->case_number }}</h1>
                     @php
-                        $statusClass = match($case->status) {
-                            'Approved' => 'bg-indigo-100 text-indigo-800 border-indigo-200',
-                            'Completed' => 'bg-emerald-100 text-emerald-800 border-emerald-200',
-                            'Planning' => 'bg-amber-100 text-amber-800 border-amber-200',
-                            'In Review' => 'bg-blue-100 text-blue-800 border-blue-200',
-                            'Cancelled' => 'bg-rose-100 text-rose-800 border-rose-200',
-                            default => 'bg-gray-100 text-gray-800 border-gray-200',
+                        $statusBadge = match($case->status) {
+                            'Planning' => 'badge-status-planning',
+                            'In Review' => 'badge-status-review',
+                            'Approved' => 'badge-status-approved',
+                            'Completed' => 'badge-status-completed',
+                            'Cancelled' => 'badge-status-cancelled',
+                            default => 'badge-status-draft',
                         };
                     @endphp
-                    <span class="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-semibold border {{ $statusClass }}">
-                        {{ $case->status }}
-                    </span>
+                    <span class="badge {{ $statusBadge }} px-2.5 py-1 fs-6">{{ $case->status }}</span>
                 </div>
-                <p class="text-sm text-gray-500 mt-0.5">
-                    Patient Reference: <span class="font-mono font-medium text-gray-700">{{ $case->patient_reference }}</span>
-                </p>
             </div>
 
-            <div class="flex items-center space-x-2">
-                <a href="{{ route('cases.index') }}" class="inline-flex items-center px-3.5 py-2 border border-gray-300 rounded-md text-xs font-semibold text-gray-700 uppercase tracking-widest hover:bg-gray-50 transition">
-                    &larr; Back to Directory
+            <!-- Action Controls with Strict Authorization -->
+            <div class="d-flex align-items-center gap-2">
+                <a href="{{ route('cases.index') }}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Cases
                 </a>
 
                 @can('update', $case)
-                    <a href="{{ route('cases.edit', $case) }}" class="inline-flex items-center px-3.5 py-2 bg-indigo-600 border border-transparent rounded-md text-xs font-semibold text-white uppercase tracking-widest hover:bg-indigo-700 transition">
-                        Edit Case
+                    <a href="{{ route('cases.edit', $case) }}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-pencil me-1"></i> Edit Case
                     </a>
                 @endcan
 
                 @can('delete', $case)
-                    <form method="POST" action="{{ route('cases.destroy', $case) }}" onsubmit="return confirm('Are you sure you want to permanently delete medical case {{ $case->case_number }}? This action cannot be undone.');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="inline-flex items-center px-3.5 py-2 bg-rose-600 border border-transparent rounded-md text-xs font-semibold text-white uppercase tracking-widest hover:bg-rose-700 transition">
-                            Delete Case
-                        </button>
-                    </form>
+                    <button type="button" 
+                            class="btn btn-danger btn-sm" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#deleteCaseModal" 
+                            data-case-number="{{ $case->case_number }}" 
+                            data-action-url="{{ route('cases.destroy', $case) }}">
+                        <i class="bi bi-trash3 me-1"></i> Delete Case
+                    </button>
                 @endcan
             </div>
         </div>
     </x-slot>
 
-    <div class="max-w-4xl mx-auto space-y-6">
-        <!-- Main Case Details Card -->
-        <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
-                <h3 class="text-base font-semibold text-gray-900">Clinical &amp; Device Specifications</h3>
-                <span class="text-xs text-gray-400">Database Record ID #{{ $case->id }}</span>
-            </div>
-
-            <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8">
-                <!-- Case Number -->
-                <div>
-                    <dt class="text-xs font-medium uppercase tracking-wider text-gray-500">Case Number</dt>
-                    <dd class="mt-1 text-base font-bold text-gray-900 font-mono">{{ $case->case_number }}</dd>
+    <div class="row justify-content-center g-4">
+        <div class="col-12 col-lg-8">
+            <!-- Clinical Specifications Card -->
+            <div class="card jm-card shadow-sm mb-4">
+                <div class="card-header bg-white py-3 px-4 border-bottom d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-file-earmark-medical text-primary"></i>
+                        <h5 class="card-title h6 fw-bold mb-0 text-dark">Clinical &amp; Device Specifications</h5>
+                    </div>
+                    <span class="badge bg-light text-muted border">System Record #{{ $case->id }}</span>
                 </div>
 
-                <!-- Patient Reference -->
-                <div>
-                    <dt class="text-xs font-medium uppercase tracking-wider text-gray-500">Patient Reference Code</dt>
-                    <dd class="mt-1 text-base font-semibold text-gray-800 font-mono bg-gray-50 px-2 py-0.5 rounded inline-block border border-gray-200">
-                        {{ $case->patient_reference }}
-                    </dd>
-                </div>
+                <div class="card-body p-4">
+                    <div class="row g-4">
+                        <!-- Case Number -->
+                        <div class="col-sm-6">
+                            <span class="text-muted small fw-semibold text-uppercase d-block mb-1" style="font-size: 0.72rem;">Case Number</span>
+                            <div class="h5 fw-bold text-dark font-monospace mb-0">{{ $case->case_number }}</div>
+                        </div>
 
-                <!-- Surgeon Name -->
-                <div>
-                    <dt class="text-xs font-medium uppercase tracking-wider text-gray-500">Operating Surgeon</dt>
-                    <dd class="mt-1 text-base font-semibold text-gray-900 flex items-center">
-                        <svg class="w-4 h-4 text-gray-400 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                        {{ $case->surgeon_name }}
-                    </dd>
-                </div>
+                        <!-- Patient Reference -->
+                        <div class="col-sm-6">
+                            <span class="text-muted small fw-semibold text-uppercase d-block mb-1" style="font-size: 0.72rem;">Patient Reference Code</span>
+                            <span class="badge bg-light text-dark border font-monospace fs-6 px-2.5 py-1.5">
+                                {{ $case->patient_reference }}
+                            </span>
+                            <small class="text-muted d-block mt-1" style="font-size: 0.72rem;">* De-identified dummy tracking code (HIPAA / Privacy compliant)</small>
+                        </div>
 
-                <!-- Implant Type -->
-                <div>
-                    <dt class="text-xs font-medium uppercase tracking-wider text-gray-500">Implant Device</dt>
-                    <dd class="mt-1 text-base font-semibold text-gray-900 flex items-center">
-                        <svg class="w-4 h-4 text-indigo-500 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                        </svg>
-                        {{ $case->implant_type }}
-                    </dd>
-                </div>
+                        <!-- Surgeon Name -->
+                        <div class="col-sm-6">
+                            <span class="text-muted small fw-semibold text-uppercase d-block mb-1" style="font-size: 0.72rem;">Lead Operating Surgeon</span>
+                            <div class="fw-semibold text-dark fs-6">
+                                <i class="bi bi-person-circle text-muted me-1.5"></i>{{ $case->surgeon_name }}
+                            </div>
+                        </div>
 
-                <!-- Status -->
-                <div>
-                    <dt class="text-xs font-medium uppercase tracking-wider text-gray-500">Status</dt>
-                    <dd class="mt-1">
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border {{ $statusClass }}">
-                            {{ $case->status }}
-                        </span>
-                    </dd>
-                </div>
+                        <!-- Implant Type -->
+                        <div class="col-sm-6">
+                            <span class="text-muted small fw-semibold text-uppercase d-block mb-1" style="font-size: 0.72rem;">Implant Device Model</span>
+                            <div class="fw-semibold text-dark fs-6">
+                                <i class="bi bi-gear-wide-connected text-primary me-1.5"></i>{{ $case->implant_type }}
+                            </div>
+                        </div>
 
-                <!-- Priority -->
-                <div>
-                    <dt class="text-xs font-medium uppercase tracking-wider text-gray-500">Priority Level</dt>
-                    <dd class="mt-1">
-                        @php
-                            $priorityClass = match($case->priority) {
-                                'High' => 'text-rose-700 bg-rose-50 border-rose-200',
-                                'Medium' => 'text-amber-700 bg-amber-50 border-amber-200',
-                                default => 'text-gray-700 bg-gray-50 border-gray-200',
-                            };
-                        @endphp
-                        <span class="inline-flex items-center px-3 py-1 rounded text-xs font-semibold border {{ $priorityClass }}">
-                            {{ $case->priority }}
-                        </span>
-                    </dd>
-                </div>
+                        <!-- Status & Priority -->
+                        <div class="col-sm-6">
+                            <span class="text-muted small fw-semibold text-uppercase d-block mb-1" style="font-size: 0.72rem;">Current Status</span>
+                            <span class="badge {{ $statusBadge }} px-3 py-1.5 fs-6">{{ $case->status }}</span>
+                        </div>
 
-                <!-- Surgery Date -->
-                <div>
-                    <dt class="text-xs font-medium uppercase tracking-wider text-gray-500">Surgery Date</dt>
-                    <dd class="mt-1 text-sm font-medium text-gray-900 flex items-center">
-                        <svg class="w-4 h-4 text-gray-400 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        @if ($case->surgery_date)
-                            {{ $case->surgery_date->format('l, F j, Y') }}
-                            <span class="text-xs text-gray-400 ml-2">({{ $case->surgery_date->diffForHumans() }})</span>
-                        @else
-                            <span class="text-gray-400 italic">Not scheduled</span>
-                        @endif
-                    </dd>
+                        <div class="col-sm-6">
+                            <span class="text-muted small fw-semibold text-uppercase d-block mb-1" style="font-size: 0.72rem;">Urgency Priority</span>
+                            @php
+                                $priorityBadge = match($case->priority) {
+                                    'High' => 'badge-priority-high',
+                                    'Low' => 'badge-priority-low',
+                                    default => 'badge-priority-medium',
+                                };
+                            @endphp
+                            <span class="badge {{ $priorityBadge }} px-3 py-1.5 fs-6">{{ $case->priority }}</span>
+                        </div>
+
+                        <!-- Surgery Date -->
+                        <div class="col-12">
+                            <span class="text-muted small fw-semibold text-uppercase d-block mb-1" style="font-size: 0.72rem;">Scheduled Surgery Date</span>
+                            @if($case->surgery_date)
+                                <div class="p-3 bg-light rounded-3 border d-flex align-items-center gap-3">
+                                    <div class="jm-stat-icon-wrapper bg-primary bg-opacity-10 text-primary">
+                                        <i class="bi bi-calendar-event"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-dark fs-6">{{ $case->surgery_date->format('l, F j, Y') }}</div>
+                                        <small class="text-muted">
+                                            @if($case->surgery_date->isFuture())
+                                                Scheduled in {{ $case->surgery_date->diffForHumans() }}
+                                            @elseif($case->surgery_date->isToday())
+                                                <span class="text-primary fw-bold">Scheduled for today</span>
+                                            @else
+                                                Operation conducted {{ $case->surgery_date->diffForHumans() }}
+                                            @endif
+                                        </small>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="p-3 bg-light rounded-3 border text-muted small fst-italic">
+                                    <i class="bi bi-calendar-x me-1 text-muted"></i> No surgery date has been assigned yet.
+                                </div>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Audit & Creator Metadata Card -->
-        <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
-            <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4 border-b border-gray-100 pb-2">
-                Audit Trail &amp; Authorship
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                <!-- Created By -->
-                <div class="p-3 bg-gray-50 rounded-md border border-gray-100">
-                    <span class="text-gray-500 block mb-1">Created By</span>
-                    <span class="font-semibold text-gray-900 block text-sm">{{ $case->creator?->name ?? 'System' }}</span>
-                    <span class="text-gray-500 block">{{ $case->creator?->email ?? 'N/A' }}</span>
-                    <span class="inline-block mt-1 uppercase text-[10px] font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded">
-                        Role: {{ $case->creator?->role ?? 'N/A' }}
-                    </span>
+        <!-- Audit Trail & Creator Info Sidebar Card -->
+        <div class="col-12 col-lg-4">
+            <div class="card jm-card shadow-sm mb-4">
+                <div class="card-header bg-white py-3 px-4 border-bottom">
+                    <h5 class="card-title h6 fw-bold mb-0 text-dark">
+                        <i class="bi bi-shield-check me-1 text-success"></i> Audit Log &amp; Attribution
+                    </h5>
                 </div>
+                <div class="card-body p-4">
+                    <!-- Creator Info -->
+                    <div class="mb-3 pb-3 border-bottom">
+                        <span class="text-muted small fw-semibold text-uppercase d-block mb-1" style="font-size: 0.72rem;">Registered By</span>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="rounded-circle bg-secondary bg-opacity-25 text-dark d-flex align-items-center justify-content-center fw-bold" style="width: 32px; height: 32px; font-size: 0.8rem;">
+                                {{ strtoupper(substr($case->creator?->name ?? 'U', 0, 1)) }}
+                            </div>
+                            <div>
+                                <div class="fw-bold text-dark small">{{ $case->creator?->name ?? 'System' }}</div>
+                                <div class="text-muted" style="font-size: 0.72rem;">{{ $case->creator?->email }}</div>
+                            </div>
+                        </div>
+                    </div>
 
-                <!-- Created At -->
-                <div class="p-3 bg-gray-50 rounded-md border border-gray-100">
-                    <span class="text-gray-500 block mb-1">Created At</span>
-                    <span class="font-semibold text-gray-900 block text-sm">{{ $case->created_at->format('M d, Y H:i:s') }}</span>
-                    <span class="text-gray-500 block">({{ $case->created_at->diffForHumans() }})</span>
-                </div>
+                    <!-- Creation Timestamp -->
+                    <div class="mb-3 pb-3 border-bottom">
+                        <span class="text-muted small fw-semibold text-uppercase d-block mb-1" style="font-size: 0.72rem;">Created At</span>
+                        <div class="small fw-semibold text-dark">{{ $case->created_at->format('M d, Y \a\t h:i A') }}</div>
+                        <small class="text-muted" style="font-size: 0.72rem;">{{ $case->created_at->diffForHumans() }}</small>
+                    </div>
 
-                <!-- Last Updated -->
-                <div class="p-3 bg-gray-50 rounded-md border border-gray-100">
-                    <span class="text-gray-500 block mb-1">Last Updated</span>
-                    <span class="font-semibold text-gray-900 block text-sm">{{ $case->updated_at->format('M d, Y H:i:s') }}</span>
-                    <span class="text-gray-500 block">({{ $case->updated_at->diffForHumans() }})</span>
+                    <!-- Updated Timestamp -->
+                    <div>
+                        <span class="text-muted small fw-semibold text-uppercase d-block mb-1" style="font-size: 0.72rem;">Last Updated</span>
+                        <div class="small fw-semibold text-dark">{{ $case->updated_at->format('M d, Y \a\t h:i A') }}</div>
+                        <small class="text-muted" style="font-size: 0.72rem;">{{ $case->updated_at->diffForHumans() }}</small>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Role Action Summary -->
+            <div class="card bg-light border-0 p-3 rounded-3 text-muted small">
+                <div class="fw-bold text-dark mb-1"><i class="bi bi-info-circle me-1"></i> Security Note:</div>
+                Clinical case modifications and deletions are strictly audited. Only authorized Administrators possess permission to remove records from the central database registry.
             </div>
         </div>
     </div>
-</x-appLayout>
+</x-app-layout>

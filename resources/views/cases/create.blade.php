@@ -1,36 +1,43 @@
-<x-appLayout>
+<x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
             <div>
-                <h2 class="font-bold text-2xl text-gray-800 leading-tight">
-                    {{ __('Register New Medical Case') }}
-                </h2>
-                <p class="text-sm text-gray-500 mt-0.5">
-                    Log an implant procedure and assign clinical specifications
-                </p>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-1 small">
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="text-decoration-none">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('cases.index') }}" class="text-decoration-none">Cases</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">New Case</li>
+                    </ol>
+                </nav>
+                <h1 class="h4 fw-bold text-dark mb-1">Register New Medical Case</h1>
+                <p class="text-muted small mb-0">Record implant device specifications and clinical schedule</p>
             </div>
-            <a href="{{ route('cases.index') }}" class="inline-flex items-center px-3.5 py-1.5 border border-gray-300 rounded-md text-xs font-semibold text-gray-700 uppercase tracking-widest hover:bg-gray-50 transition">
-                &larr; Back to Case Directory
-            </a>
+            <div>
+                <a href="{{ route('cases.index') }}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Directory
+                </a>
+            </div>
         </div>
     </x-slot>
 
-    <div class="max-w-4xl mx-auto">
-        <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6 sm:p-8">
-            <form method="POST" action="{{ route('cases.store') }}">
-                @csrf
-
-                @include('cases._form', ['case' => $case, 'holidays' => $holidays])
-
-                <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-end space-x-3">
-                    <a href="{{ route('cases.index') }}" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none transition">
-                        Cancel
-                    </a>
-                    <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded-md text-sm font-semibold hover:bg-indigo-700 focus:bg-indigo-700 shadow-sm transition">
-                        Save &amp; Create Case
-                    </button>
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-9">
+            <div class="card jm-card shadow-sm">
+                <div class="card-header bg-white py-3 px-4 border-bottom">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-plus-circle-fill text-teal text-primary"></i>
+                        <h5 class="card-title h6 fw-bold mb-0 text-dark">Clinical Case Specifications</h5>
+                    </div>
+                    <small class="text-muted">All fields marked with an asterisk (<span class="text-danger">*</span>) are mandatory.</small>
                 </div>
-            </form>
+
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ route('cases.store') }}">
+                        @csrf
+                        @include('cases._form', ['case' => $case, 'holidays' => $holidays])
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-</x-appLayout>
+</x-app-layout>

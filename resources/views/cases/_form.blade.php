@@ -1,185 +1,173 @@
-<div class="space-y-6">
-    <!-- Grid for Core Identification -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Case Number -->
-        <div>
-            <label for="case_number" class="block text-sm font-semibold text-gray-700">
-                Case Number <span class="text-rose-600">*</span>
-            </label>
-            <div class="mt-1">
-                <input type="text"
-                       name="case_number"
-                       id="case_number"
-                       value="{{ old('case_number', $case->case_number) }}"
-                       placeholder="e.g. CASE-2045"
-                       class="w-full text-sm rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 @error('case_number') border-rose-400 ring-rose-400 @enderror"
-                       required />
-            </div>
-            <p class="mt-1 text-xs text-gray-500">Unique alphanumeric code identifying this implant procedure.</p>
+<div class="row g-4">
+    <!-- Case Number -->
+    <div class="col-md-6">
+        <label for="case_number" class="form-label">
+            Case Number <span class="text-danger">*</span>
+        </label>
+        <div class="input-group">
+            <span class="input-group-text bg-light text-muted font-monospace"><i class="bi bi-hash"></i></span>
+            <input type="text" 
+                   name="case_number" 
+                   id="case_number" 
+                   value="{{ old('case_number', $case->case_number) }}" 
+                   class="form-control font-monospace @error('case_number') is-invalid @enderror" 
+                   placeholder="e.g. CASE-1045" 
+                   required>
             @error('case_number')
-                <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
+        <small class="text-muted d-block mt-1">Unique clinical tracking identifier across registry.</small>
+    </div>
 
-        <!-- Patient Reference -->
-        <div>
-            <label for="patient_reference" class="block text-sm font-semibold text-gray-700">
-                Patient Reference <span class="text-rose-600">*</span>
-            </label>
-            <div class="mt-1">
-                <input type="text"
-                       name="patient_reference"
-                       id="patient_reference"
-                       value="{{ old('patient_reference', $case->patient_reference) }}"
-                       placeholder="e.g. PAT-AB892"
-                       class="w-full text-sm rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 @error('patient_reference') border-rose-400 ring-rose-400 @enderror"
-                       required />
-            </div>
-            <p class="mt-1 text-xs text-gray-500">De-identified dummy code (medical privacy compliant; no real names).</p>
+    <!-- Patient Reference -->
+    <div class="col-md-6">
+        <label for="patient_reference" class="form-label">
+            Patient Reference Code <span class="text-danger">*</span>
+        </label>
+        <div class="input-group">
+            <span class="input-group-text bg-light text-muted font-monospace"><i class="bi bi-person-badge"></i></span>
+            <input type="text" 
+                   name="patient_reference" 
+                   id="patient_reference" 
+                   value="{{ old('patient_reference', $case->patient_reference) }}" 
+                   class="form-control font-monospace @error('patient_reference') is-invalid @enderror" 
+                   placeholder="e.g. PAT-0042" 
+                   required>
             @error('patient_reference')
-                <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
+        <small class="text-muted d-block mt-1">De-identified dummy code only (privacy compliant; no real patient names).</small>
     </div>
 
-    <!-- Grid for Surgeon and Implant -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Surgeon Name -->
-        <div>
-            <label for="surgeon_name" class="block text-sm font-semibold text-gray-700">
-                Surgeon Name <span class="text-rose-600">*</span>
-            </label>
-            <div class="mt-1">
-                <input type="text"
-                       name="surgeon_name"
-                       id="surgeon_name"
-                       value="{{ old('surgeon_name', $case->surgeon_name) }}"
-                       placeholder="e.g. Dr. Jane Smith"
-                       class="w-full text-sm rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 @error('surgeon_name') border-rose-400 ring-rose-400 @enderror"
-                       required />
-            </div>
-            <p class="mt-1 text-xs text-gray-500">Lead operating surgeon or clinician.</p>
+    <!-- Surgeon Name -->
+    <div class="col-md-6">
+        <label for="surgeon_name" class="form-label">
+            Lead Operating Surgeon <span class="text-danger">*</span>
+        </label>
+        <div class="input-group">
+            <span class="input-group-text bg-light text-muted"><i class="bi bi-person"></i></span>
+            <input type="text" 
+                   name="surgeon_name" 
+                   id="surgeon_name" 
+                   value="{{ old('surgeon_name', $case->surgeon_name) }}" 
+                   class="form-control @error('surgeon_name') is-invalid @enderror" 
+                   placeholder="e.g. Dr. Eleanor Vance" 
+                   required>
             @error('surgeon_name')
-                <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
+        <small class="text-muted d-block mt-1">Full clinical title and surgeon name.</small>
+    </div>
 
-        <!-- Implant Type -->
-        <div>
-            <label for="implant_type" class="block text-sm font-semibold text-gray-700">
-                Implant Type <span class="text-rose-600">*</span>
-            </label>
-            <div class="mt-1">
-                <input type="text"
-                       name="implant_type"
-                       id="implant_type"
-                       value="{{ old('implant_type', $case->implant_type) }}"
-                       placeholder="e.g. Titanium Hip Stem / Spinal Interbody Cage"
-                       class="w-full text-sm rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 @error('implant_type') border-rose-400 ring-rose-400 @enderror"
-                       required />
-            </div>
-            <p class="mt-1 text-xs text-gray-500">Device model or implant specification.</p>
+    <!-- Implant Type -->
+    <div class="col-md-6">
+        <label for="implant_type" class="form-label">
+            Medical Implant Device <span class="text-danger">*</span>
+        </label>
+        <div class="input-group">
+            <span class="input-group-text bg-light text-muted"><i class="bi bi-gear-wide-connected"></i></span>
+            <input type="text" 
+                   name="implant_type" 
+                   id="implant_type" 
+                   value="{{ old('implant_type', $case->implant_type) }}" 
+                   class="form-control @error('implant_type') is-invalid @enderror" 
+                   placeholder="e.g. Titanium Hip Stem / Spinal Cage" 
+                   required>
             @error('implant_type')
-                <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
+        <small class="text-muted d-block mt-1">Manufacturer device model or medical prosthetic specification.</small>
     </div>
 
-    <!-- Grid for Status and Priority -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Status -->
-        <div>
-            <label for="status" class="block text-sm font-semibold text-gray-700">
-                Case Status <span class="text-rose-600">*</span>
-            </label>
-            <div class="mt-1">
-                <select name="status"
-                        id="status"
-                        class="w-full text-sm rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 @error('status') border-rose-400 ring-rose-400 @enderror"
-                        required>
-                    @foreach(App\Models\MedicalCase::STATUSES as $statusOption)
-                        <option value="{{ $statusOption }}" {{ old('status', $case->status) === $statusOption ? 'selected' : '' }}>
-                            {{ $statusOption }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <p class="mt-1 text-xs text-gray-500">Workflow stage from Draft through Completion.</p>
-            @error('status')
-                <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <!-- Priority -->
-        <div>
-            <label for="priority" class="block text-sm font-semibold text-gray-700">
-                Priority <span class="text-rose-600">*</span>
-            </label>
-            <div class="mt-1">
-                <select name="priority"
-                        id="priority"
-                        class="w-full text-sm rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 @error('priority') border-rose-400 ring-rose-400 @enderror"
-                        required>
-                    @foreach(App\Models\MedicalCase::PRIORITIES as $priorityOption)
-                        <option value="{{ $priorityOption }}" {{ old('priority', $case->priority) === $priorityOption ? 'selected' : '' }}>
-                            {{ $priorityOption }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <p class="mt-1 text-xs text-gray-500">Urgency level for clinical device logistics.</p>
-            @error('priority')
-                <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p>
-            @enderror
-        </div>
+    <!-- Status Dropdown -->
+    <div class="col-md-6">
+        <label for="status" class="form-label">
+            Case Status <span class="text-danger">*</span>
+        </label>
+        <select name="status" id="status" class="form-select @error('status') is-invalid @enderror" required>
+            @foreach(App\Models\MedicalCase::STATUSES as $statusOption)
+                <option value="{{ $statusOption }}" {{ old('status', $case->status) === $statusOption ? 'selected' : '' }}>
+                    {{ $statusOption }}
+                </option>
+            @endforeach
+        </select>
+        @error('status')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+        <small class="text-muted d-block mt-1">Lifecycle phase of the surgical implant procedure.</small>
     </div>
 
-    <!-- Surgery Date & Bonus Public Holiday Integration -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-        <!-- Surgery Date Input -->
-        <div>
-            <label for="surgery_date" class="block text-sm font-semibold text-gray-700">
-                Surgery Date <span class="text-gray-400 font-normal">(Optional)</span>
-            </label>
-            <div class="mt-1">
-                <input type="date"
-                       name="surgery_date"
-                       id="surgery_date"
-                       value="{{ old('surgery_date', $case->surgery_date ? $case->surgery_date->format('Y-m-d') : '') }}"
-                       class="w-full text-sm rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 @error('surgery_date') border-rose-400 ring-rose-400 @enderror" />
-            </div>
-            <p class="mt-1 text-xs text-gray-500">Scheduled surgery date in YYYY-MM-DD format.</p>
+    <!-- Priority Dropdown -->
+    <div class="col-md-6">
+        <label for="priority" class="form-label">
+            Priority Level <span class="text-danger">*</span>
+        </label>
+        <select name="priority" id="priority" class="form-select @error('priority') is-invalid @enderror" required>
+            @foreach(App\Models\MedicalCase::PRIORITIES as $priorityOption)
+                <option value="{{ $priorityOption }}" {{ old('priority', $case->priority) === $priorityOption ? 'selected' : '' }}>
+                    {{ $priorityOption }}
+                </option>
+            @endforeach
+        </select>
+        @error('priority')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+        <small class="text-muted d-block mt-1">Clinical urgency priority (Low, Medium, High).</small>
+    </div>
+
+    <!-- Optional Surgery Date -->
+    <div class="col-md-6">
+        <label for="surgery_date" class="form-label">
+            Scheduled Surgery Date <span class="text-muted">(Optional)</span>
+        </label>
+        <div class="input-group">
+            <span class="input-group-text bg-light text-muted"><i class="bi bi-calendar3"></i></span>
+            <input type="date" 
+                   name="surgery_date" 
+                   id="surgery_date" 
+                   value="{{ old('surgery_date', $case->surgery_date ? $case->surgery_date->format('Y-m-d') : '') }}" 
+                   class="form-control @error('surgery_date') is-invalid @enderror">
             @error('surgery_date')
-                <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-
-        <!-- Bonus: Public Holidays Advisory (Nager.Date API) -->
-        <div class="bg-indigo-50/60 border border-indigo-100 rounded-md p-3.5">
-            <div class="flex items-center space-x-2 text-xs font-semibold text-indigo-900 mb-1">
-                <svg class="w-4 h-4 text-indigo-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span>Hospital Calendar & Upcoming Holidays (Nager.Date API)</span>
-            </div>
-            <p class="text-xs text-gray-600 mb-2">
-                Verify OT operating hours and logistics availability against public holidays:
-            </p>
-
-            @if(isset($holidays) && $holidays->isNotEmpty())
-                <ul class="space-y-1 text-xs">
-                    @foreach($holidays as $holiday)
-                        <li class="flex items-center justify-between text-gray-700 bg-white/70 px-2 py-1 rounded border border-indigo-100">
-                            <span class="font-medium truncate mr-2">{{ $holiday['name'] }} ({{ $holiday['countryCode'] }})</span>
-                            <span class="font-mono text-indigo-700 flex-shrink-0">{{ $holiday['date'] }}</span>
-                        </li>
-                    @endforeach
-                </ul>
-            @else
-                <p class="text-xs text-gray-500 italic">
-                    External holiday service active. Operating room schedules are synchronized.
-                </p>
-            @endif
-        </div>
+        <small class="text-muted d-block mt-1">Planned operation date in operating theater.</small>
     </div>
+
+    <!-- Bonus: Upcoming Public Holidays Integration Card -->
+    @if(isset($holidays) && count($holidays) > 0)
+        <div class="col-12">
+            <div class="card bg-light border-0 p-3 rounded-3">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="bi bi-calendar-event text-teal text-primary"></i>
+                    <span class="small fw-bold text-dark">Upcoming Public Holidays (Calendar Advisory via Nager.Date API):</span>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    @foreach($holidays as $holiday)
+                        <span class="badge bg-white text-dark border py-1.5 px-2">
+                            <i class="bi bi-flag me-1 text-muted"></i>
+                            <strong>{{ $holiday['date'] ?? '' }}:</strong> {{ $holiday['name'] ?? $holiday['localName'] ?? 'Public Holiday' }}
+                        </span>
+                    @endforeach
+                </div>
+                <small class="text-muted mt-2" style="font-size: 0.72rem;">
+                    * Check operating theater availability when scheduling surgical procedures near public holidays.
+                </small>
+            </div>
+        </div>
+    @endif
+</div>
+
+<!-- Form Submission Action Row -->
+<div class="d-flex align-items-center justify-content-between mt-4 pt-3 border-top">
+    <a href="{{ $case->exists ? route('cases.show', $case) : route('cases.index') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-x-circle me-1"></i> Cancel
+    </a>
+    <button type="submit" class="btn btn-jajal-primary px-4 shadow-sm">
+        <i class="bi bi-check2-circle me-1"></i> {{ $case->exists ? 'Update Case Specifications' : 'Save & Register Case' }}
+    </button>
 </div>

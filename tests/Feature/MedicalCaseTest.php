@@ -33,6 +33,34 @@ class MedicalCaseTest extends TestCase
     }
 
     /**
+     * Test: Seeded Jajal Medical demo accounts authenticate successfully.
+     */
+    public function test_seeded_demo_accounts_can_login_with_assignment_credentials(): void
+    {
+        $this->seed();
+
+        // Admin login
+        $adminResponse = $this->post('/login', [
+            'email' => 'admin@jajalmedical.test',
+            'password' => 'Admin@12345',
+        ]);
+        $adminResponse->assertRedirect('/dashboard');
+        $this->assertAuthenticated();
+
+        // Logout
+        $this->post('/logout');
+        $this->assertGuest();
+
+        // Viewer login
+        $viewerResponse = $this->post('/login', [
+            'email' => 'viewer@jajalmedical.test',
+            'password' => 'Viewer@12345',
+        ]);
+        $viewerResponse->assertRedirect('/dashboard');
+        $this->assertAuthenticated();
+    }
+
+    /**
      * Test 2: Invalid login is rejected.
      * Requirement: 7.2
      */

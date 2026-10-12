@@ -161,8 +161,16 @@ npm run build
 ```
 
 ### 6. Start the local server
+Use the included pre-configured launcher (which ensures SQLite/MySQL drivers are loaded):
 ```bash
-php artisan serve
+# In PowerShell:
+.\serve.ps1
+
+# In Windows Command Prompt (CMD) or Double-Click:
+serve.bat
+
+# Or directly via PHP:
+php -c php.ini artisan serve
 ```
 Open **[http://localhost:8000](http://localhost:8000)** in your browser and sign in using `admin@example.com` / `password123`.
 

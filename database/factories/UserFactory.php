@@ -29,8 +29,39 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'role' => User::ROLE_VIEWER,
             'remember_token' => Str::random(10),
         ];
+    }
+
+    /**
+     * Indicate that the user is an Admin.
+     */
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => User::ROLE_ADMIN,
+        ]);
+    }
+
+    /**
+     * Indicate that the user is a Viewer.
+     */
+    public function viewer(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => User::ROLE_VIEWER,
+        ]);
+    }
+
+    /**
+     * Indicate that the user is an Engineer (bonus).
+     */
+    public function engineer(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => User::ROLE_ENGINEER,
+        ]);
     }
 
     /**

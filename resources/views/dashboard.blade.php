@@ -19,7 +19,7 @@
     </x-slot>
 
     <!-- Welcome / Role Context Banner -->
-    <div class="card jm-card mb-4 border-0 shadow-sm" style="background: linear-gradient(90deg, #f8fafc 0%, #edf2f7 100%);">
+    <div class="card jm-card mb-4 border-0 shadow-sm" style="background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 55%, #f0f9ff 100%); border: 1px solid rgba(14, 165, 233, 0.18);">
         <div class="card-body p-3 p-md-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
             <div class="d-flex align-items-center gap-3">
                 <div class="jm-brand-icon" style="width: 48px; height: 48px; font-size: 1.5rem;">
@@ -42,8 +42,8 @@
                 </div>
             </div>
             <div class="text-md-end">
-                <span class="text-muted small">
-                    <i class="bi bi-calendar3 me-1"></i> System Date: <strong>{{ now()->format('F d, Y') }}</strong>
+                <span class="badge bg-white text-dark border px-3 py-2 shadow-xs" style="font-size: 0.8rem;">
+                    <i class="bi bi-calendar3 me-1.5 text-primary"></i> System Date: <strong>{{ now()->format('M d, Y') }}</strong>
                 </span>
             </div>
         </div>
@@ -56,13 +56,13 @@
             <div class="card jm-card jm-card-stat border-total h-100">
                 <div class="card-body p-3">
                     <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-semibold text-uppercase" style="font-size: 0.72rem;">Total Cases</span>
-                        <div class="jm-stat-icon-wrapper bg-light text-dark">
+                        <span class="text-muted small fw-semibold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.05em;">Total Cases</span>
+                        <div class="jm-stat-icon-wrapper" style="background-color: #f1f5f9; color: var(--jm-navy);">
                             <i class="bi bi-folder2"></i>
                         </div>
                     </div>
                     <div class="h3 fw-bold text-dark mb-1">{{ number_format($counts['total']) }}</div>
-                    <a href="{{ route('cases.index') }}" class="small text-decoration-none text-primary">
+                    <a href="{{ route('cases.index') }}" class="small text-decoration-none text-primary fw-medium">
                         Registry directory &rarr;
                     </a>
                 </div>
@@ -74,13 +74,13 @@
             <div class="card jm-card jm-card-stat border-planning h-100">
                 <div class="card-body p-3">
                     <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-warning-emphasis small fw-semibold text-uppercase" style="font-size: 0.72rem;">Planning</span>
-                        <div class="jm-stat-icon-wrapper bg-warning bg-opacity-10 text-warning">
+                        <span class="text-warning-emphasis small fw-semibold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.05em;">Planning</span>
+                        <div class="jm-stat-icon-wrapper" style="background-color: #fffbeb; color: #d97706;">
                             <i class="bi bi-calendar-check"></i>
                         </div>
                     </div>
                     <div class="h3 fw-bold text-dark mb-1">{{ number_format($counts['planning']) }}</div>
-                    <a href="{{ route('cases.index', ['status' => 'Planning']) }}" class="small text-decoration-none text-warning-emphasis">
+                    <a href="{{ route('cases.index', ['status' => 'Planning']) }}" class="small text-decoration-none text-warning-emphasis fw-medium">
                         Filter planning &rarr;
                     </a>
                 </div>
@@ -92,13 +92,13 @@
             <div class="card jm-card jm-card-stat border-review h-100">
                 <div class="card-body p-3">
                     <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-primary small fw-semibold text-uppercase" style="font-size: 0.72rem;">In Review</span>
-                        <div class="jm-stat-icon-wrapper bg-primary bg-opacity-10 text-primary">
+                        <span class="text-primary small fw-semibold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.05em;">In Review</span>
+                        <div class="jm-stat-icon-wrapper" style="background-color: #f0f9ff; color: #0284c7;">
                             <i class="bi bi-clipboard2-pulse"></i>
                         </div>
                     </div>
                     <div class="h3 fw-bold text-dark mb-1">{{ number_format($counts['in_review']) }}</div>
-                    <a href="{{ route('cases.index', ['status' => 'In Review']) }}" class="small text-decoration-none text-primary">
+                    <a href="{{ route('cases.index', ['status' => 'In Review']) }}" class="small text-decoration-none text-primary fw-medium">
                         Filter in review &rarr;
                     </a>
                 </div>
@@ -110,13 +110,13 @@
             <div class="card jm-card jm-card-stat border-approved h-100">
                 <div class="card-body p-3">
                     <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-indigo small fw-semibold text-uppercase" style="font-size: 0.72rem; color: #4f46e5;">Approved</span>
-                        <div class="jm-stat-icon-wrapper bg-indigo bg-opacity-10" style="background-color: rgba(99, 102, 241, 0.1); color: #4f46e5;">
+                        <span class="small fw-semibold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.05em; color: #4f46e5;">Approved</span>
+                        <div class="jm-stat-icon-wrapper" style="background-color: #eef2ff; color: #4f46e5;">
                             <i class="bi bi-shield-check"></i>
                         </div>
                     </div>
                     <div class="h3 fw-bold text-dark mb-1">{{ number_format($counts['approved']) }}</div>
-                    <a href="{{ route('cases.index', ['status' => 'Approved']) }}" class="small text-decoration-none" style="color: #4f46e5;">
+                    <a href="{{ route('cases.index', ['status' => 'Approved']) }}" class="small text-decoration-none fw-medium" style="color: #4f46e5;">
                         Filter approved &rarr;
                     </a>
                 </div>
@@ -128,13 +128,13 @@
             <div class="card jm-card jm-card-stat border-completed h-100">
                 <div class="card-body p-3">
                     <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-success small fw-semibold text-uppercase" style="font-size: 0.72rem;">Completed</span>
-                        <div class="jm-stat-icon-wrapper bg-success bg-opacity-10 text-success">
+                        <span class="text-success small fw-semibold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.05em;">Completed</span>
+                        <div class="jm-stat-icon-wrapper" style="background-color: #ecfdf5; color: #059669;">
                             <i class="bi bi-check2-circle"></i>
                         </div>
                     </div>
                     <div class="h3 fw-bold text-dark mb-1">{{ number_format($counts['completed']) }}</div>
-                    <a href="{{ route('cases.index', ['status' => 'Completed']) }}" class="small text-decoration-none text-success">
+                    <a href="{{ route('cases.index', ['status' => 'Completed']) }}" class="small text-decoration-none text-success fw-medium">
                         Filter completed &rarr;
                     </a>
                 </div>
@@ -200,12 +200,12 @@
                     @forelse($recentCases as $case)
                         <tr>
                             <td>
-                                <a href="{{ route('cases.show', $case) }}" class="fw-bold text-primary font-monospace text-decoration-none">
+                                <a href="{{ route('cases.show', $case) }}" class="jm-case-code">
                                     {{ $case->case_number }}
                                 </a>
                             </td>
                             <td>
-                                <span class="badge bg-light text-dark border font-monospace">{{ $case->patient_reference }}</span>
+                                <span class="badge-patient-ref">{{ $case->patient_reference }}</span>
                             </td>
                             <td>
                                 <i class="bi bi-person-fill text-muted me-1"></i>{{ $case->surgeon_name }}

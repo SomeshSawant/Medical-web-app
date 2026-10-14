@@ -32,7 +32,7 @@
                         </div>
                         <small class="text-muted">Record ID #{{ $case->id }} &bull; Created {{ $case->created_at->format('M d, Y') }} by {{ $case->creator?->name }}</small>
                     </div>
-                    <span class="badge bg-light text-dark border font-monospace">{{ $case->patient_reference }}</span>
+                    <span class="badge-patient-ref">{{ $case->patient_reference }}</span>
                 </div>
 
                 <div class="card-body p-4">

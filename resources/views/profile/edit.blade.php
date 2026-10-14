@@ -46,7 +46,14 @@
                         <div class="mb-3">
                             <label class="form-label text-muted small">Assigned System Role</label>
                             <div>
-                                <span class="badge bg-secondary text-uppercase px-2.5 py-1.5">{{ $user->role }}</span>
+                                @php
+                                    $profRoleBadge = match($user->role) {
+                                        'admin' => 'bg-danger-subtle text-danger border border-danger-subtle',
+                                        'engineer' => 'bg-info-subtle text-info border border-info-subtle',
+                                        default => 'bg-success-subtle text-success border border-success-subtle',
+                                    };
+                                @endphp
+                                <span class="badge {{ $profRoleBadge }} text-uppercase px-2.5 py-1.5">{{ $user->role }}</span>
                                 <small class="text-muted ms-2">(Roles are managed by system administrators)</small>
                             </div>
                         </div>

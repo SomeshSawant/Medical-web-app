@@ -141,12 +141,12 @@
                     @forelse($cases as $case)
                         <tr>
                             <td>
-                                <a href="{{ route('cases.show', $case) }}" class="fw-bold text-primary font-monospace text-decoration-none">
+                                <a href="{{ route('cases.show', $case) }}" class="jm-case-code">
                                     {{ $case->case_number }}
                                 </a>
                             </td>
                             <td>
-                                <span class="badge bg-light text-dark border font-monospace">{{ $case->patient_reference }}</span>
+                                <span class="badge-patient-ref">{{ $case->patient_reference }}</span>
                             </td>
                             <td>
                                 <i class="bi bi-person-fill text-muted me-1"></i>{{ $case->surgeon_name }}

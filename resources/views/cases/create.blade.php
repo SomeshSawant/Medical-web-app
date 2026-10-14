@@ -25,7 +25,7 @@
             <div class="card jm-card shadow-sm">
                 <div class="card-header bg-white py-3 px-4 border-bottom">
                     <div class="d-flex align-items-center gap-2">
-                        <i class="bi bi-plus-circle-fill text-teal text-primary"></i>
+                        <i class="bi bi-plus-circle-fill text-primary"></i>
                         <h5 class="card-title h6 fw-bold mb-0 text-dark">Clinical Case Specifications</h5>
                     </div>
                     <small class="text-muted">All fields marked with an asterisk (<span class="text-danger">*</span>) are mandatory.</small>

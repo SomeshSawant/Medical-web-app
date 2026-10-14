@@ -66,22 +66,24 @@
             </ul>
 
             <div class="p-3 border-top border-secondary border-opacity-25 mt-auto">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                    <small class="text-white-50" style="font-size: 0.7rem;">SIGNED IN ROLE</small>
-                    @php
-                        $userRole = Auth::user()?->role;
-                        $roleBadge = match($userRole) {
-                            'admin' => 'bg-danger text-white',
-                            'engineer' => 'bg-info text-dark',
-                            default => 'bg-success text-white',
-                        };
-                    @endphp
-                    <span class="badge {{ $roleBadge }} text-uppercase fw-semibold" style="font-size: 0.65rem;">
-                        {{ $userRole ?? 'Viewer' }}
-                    </span>
+                <div class="jm-sidebar-user-box">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <small class="text-white-50 fw-semibold" style="font-size: 0.68rem; letter-spacing: 0.05em;">SIGNED IN ROLE</small>
+                        @php
+                            $userRole = Auth::user()?->role;
+                            $roleBadge = match($userRole) {
+                                'admin' => 'bg-danger text-white',
+                                'engineer' => 'bg-info text-dark',
+                                default => 'bg-success text-white',
+                            };
+                        @endphp
+                        <span class="badge {{ $roleBadge }} text-uppercase fw-semibold" style="font-size: 0.65rem;">
+                            {{ $userRole ?? 'Viewer' }}
+                        </span>
+                    </div>
+                    <div class="text-truncate fw-semibold text-white small">{{ Auth::user()?->name }}</div>
+                    <div class="text-truncate text-white-50" style="font-size: 0.73rem;">{{ Auth::user()?->email }}</div>
                 </div>
-                <div class="text-truncate fw-medium text-white small">{{ Auth::user()?->name }}</div>
-                <div class="text-truncate text-white-50" style="font-size: 0.75rem;">{{ Auth::user()?->email }}</div>
             </div>
         </aside>
 
@@ -170,14 +172,14 @@
                         </span>
 
                         <div class="dropdown">
-                            <button class="btn btn-sm btn-light border dropdown-toggle d-flex align-items-center gap-2" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width: 26px; height: 26px; font-size: 0.75rem;">
+                            <button class="btn btn-sm btn-white bg-white border dropdown-toggle d-flex align-items-center gap-2 shadow-sm rounded-pill px-2.5 py-1" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-semibold shadow-sm" style="width: 26px; height: 26px; font-size: 0.72rem; background: var(--jm-brand-gradient);">
                                     {{ strtoupper(substr(Auth::user()?->name ?? 'U', 0, 1)) }}
                                 </div>
                                 <span class="d-none d-md-inline small fw-semibold text-dark">{{ Auth::user()?->name }}</span>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end shadow-sm border" aria-labelledby="userMenuButton" style="min-width: 200px;">
-                                <li class="px-3 py-2 border-bottom bg-light">
+                            <ul class="dropdown-menu dropdown-menu-end border shadow-sm" aria-labelledby="userMenuButton" style="min-width: 220px; border-radius: 12px;">
+                                <li class="px-3 py-2 border-bottom bg-light rounded-top">
                                     <div class="small fw-bold text-dark text-truncate">{{ Auth::user()?->name }}</div>
                                     <div class="text-muted text-truncate" style="font-size: 0.75rem;">{{ Auth::user()?->email }}</div>
                                 </li>

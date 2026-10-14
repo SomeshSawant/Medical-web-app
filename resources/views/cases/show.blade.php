@@ -73,8 +73,8 @@
 
                         <!-- Patient Reference -->
                         <div class="col-sm-6">
-                            <span class="text-muted small fw-semibold text-uppercase d-block mb-1" style="font-size: 0.72rem;">Patient Reference Code</span>
-                            <span class="badge bg-light text-dark border font-monospace fs-6 px-2.5 py-1.5">
+                            <span class="text-muted small fw-semibold text-uppercase d-block mb-1" style="font-size: 0.72rem; letter-spacing: 0.05em;">Patient Reference Code</span>
+                            <span class="badge-patient-ref fs-6 px-3 py-1.5">
                                 {{ $case->patient_reference }}
                             </span>
                             <small class="text-muted d-block mt-1" style="font-size: 0.72rem;">* De-identified dummy tracking code (HIPAA / Privacy compliant)</small>

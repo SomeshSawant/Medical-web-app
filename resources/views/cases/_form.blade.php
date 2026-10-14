@@ -141,20 +141,20 @@
     <!-- Bonus: Upcoming Public Holidays Integration Card -->
     @if(isset($holidays) && count($holidays) > 0)
         <div class="col-12">
-            <div class="card bg-light border-0 p-3 rounded-3">
+            <div class="card border p-3 rounded-3 shadow-xs" style="background-color: #f8fafc; border-color: #e2e8f0 !important;">
                 <div class="d-flex align-items-center gap-2 mb-2">
-                    <i class="bi bi-calendar-event text-teal text-primary"></i>
+                    <i class="bi bi-calendar-event text-primary"></i>
                     <span class="small fw-bold text-dark">Upcoming Public Holidays (Calendar Advisory via Nager.Date API):</span>
                 </div>
                 <div class="d-flex flex-wrap gap-2">
                     @foreach($holidays as $holiday)
-                        <span class="badge bg-white text-dark border py-1.5 px-2">
+                        <span class="badge bg-white text-dark border py-1.5 px-2.5 shadow-xs">
                             <i class="bi bi-flag me-1 text-muted"></i>
                             <strong>{{ $holiday['date'] ?? '' }}:</strong> {{ $holiday['name'] ?? $holiday['localName'] ?? 'Public Holiday' }}
                         </span>
                     @endforeach
                 </div>
-                <small class="text-muted mt-2" style="font-size: 0.72rem;">
+                <small class="text-muted mt-2 d-block" style="font-size: 0.72rem;">
                     * Check operating theater availability when scheduling surgical procedures near public holidays.
                 </small>
             </div>

@@ -10,25 +10,25 @@
         </div>
 
         <!-- Reviewer Test Credentials Quick-Fill Pill -->
-        <div class="card bg-light border-0 mb-4 p-3 rounded-3">
+        <div class="card border mb-4 p-3 rounded-3 shadow-xs" style="background-color: #f8fafc; border-color: #e2e8f0 !important;">
             <div class="d-flex align-items-center justify-content-between mb-2">
                 <span class="small fw-bold text-dark">
-                    <i class="bi bi-key-fill text-teal me-1 text-primary"></i> Reviewer Demo Accounts:
+                    <i class="bi bi-key-fill text-primary me-1"></i> Reviewer Demo Accounts:
                 </span>
-                <span class="badge bg-secondary" style="font-size: 0.65rem;">Click to Autofill</span>
+                <span class="badge bg-secondary-subtle text-secondary border" style="font-size: 0.65rem;">Click to Autofill</span>
             </div>
-            <div class="d-flex flex-column gap-1.5">
-                <button type="button" class="btn btn-sm btn-outline-danger text-start py-1 px-2 d-flex justify-content-between align-items-center" onclick="fillCredentials('admin@medicalapp.test', 'Admin@12345')">
+            <div class="d-flex flex-column gap-2">
+                <button type="button" class="btn btn-sm btn-outline-danger text-start py-1.5 px-2.5 d-flex justify-content-between align-items-center rounded-2 quick-fill-btn shadow-xs" onclick="fillCredentials('admin@medicalapp.test', 'Admin@12345')">
                     <span class="small fw-semibold">Admin (Full Access)</span>
-                    <span class="badge bg-danger-subtle text-danger">admin@medicalapp.test</span>
+                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle font-monospace">admin@medicalapp.test</span>
                 </button>
-                <button type="button" class="btn btn-sm btn-outline-success text-start py-1 px-2 d-flex justify-content-between align-items-center" onclick="fillCredentials('viewer@medicalapp.test', 'Viewer@12345')">
+                <button type="button" class="btn btn-sm btn-outline-success text-start py-1.5 px-2.5 d-flex justify-content-between align-items-center rounded-2 quick-fill-btn shadow-xs" onclick="fillCredentials('viewer@medicalapp.test', 'Viewer@12345')">
                     <span class="small fw-semibold">Viewer (Read-Only)</span>
-                    <span class="badge bg-success-subtle text-success">viewer@medicalapp.test</span>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle font-monospace">viewer@medicalapp.test</span>
                 </button>
-                <button type="button" class="btn btn-sm btn-outline-info text-start py-1 px-2 d-flex justify-content-between align-items-center" onclick="fillCredentials('engineer@medicalapp.test', 'Engineer@12345')">
+                <button type="button" class="btn btn-sm btn-outline-info text-start py-1.5 px-2.5 d-flex justify-content-between align-items-center rounded-2 quick-fill-btn shadow-xs" onclick="fillCredentials('engineer@medicalapp.test', 'Engineer@12345')">
                     <span class="small fw-semibold">Engineer (Bonus Role)</span>
-                    <span class="badge bg-info-subtle text-info">engineer@medicalapp.test</span>
+                    <span class="badge bg-info-subtle text-info border border-info-subtle font-monospace">engineer@medicalapp.test</span>
                 </button>
             </div>
         </div>

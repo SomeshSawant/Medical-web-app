@@ -24,18 +24,10 @@
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: linear-gradient(135deg, #0c2340 0%, #16365c 50%, #0d9488 100%);
-            min-height: 100vh;
-        }
-        .login-card {
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
         }
     </style>
 </head>
-<body class="d-flex align-items-center justify-content-center py-5">
+<body class="login-page-bg d-flex align-items-center justify-content-center py-5">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-11 col-sm-9 col-md-7 col-lg-5 col-xl-4">

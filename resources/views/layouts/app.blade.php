@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Jajal Medical — Medical Case Management System') }}</title>
+    <title>{{ config('app.name', 'Medical web app — Medical Case Management System') }}</title>
 
     <!-- Bootstrap 5.3.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -18,8 +18,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Jajal Medical Custom Stylesheet -->
-    <link rel="stylesheet" href="{{ asset('css/jajal-medical.css') }}">
+    <!-- Medical Web App Custom Stylesheet -->
+    <link rel="stylesheet" href="{{ asset('css/medical-app.css') }}">
 
     <style>
         body {
@@ -36,7 +36,7 @@
                     <i class="bi bi-hospital"></i>
                 </div>
                 <div>
-                    <div class="fw-bold lh-1 text-white fs-6">Jajal Medical</div>
+                    <div class="fw-bold lh-1 text-white fs-6">Medical web app</div>
                     <small class="text-white-50" style="font-size: 0.72rem;">Case Management</small>
                 </div>
             </a>
@@ -93,7 +93,7 @@
                         <i class="bi bi-hospital"></i>
                     </div>
                     <div>
-                        <div class="fw-bold text-white fs-6">Jajal Medical</div>
+                        <div class="fw-bold text-white fs-6">Medical web app</div>
                         <small class="text-white-50" style="font-size: 0.72rem;">Case Management</small>
                     </div>
                 </div>
@@ -157,7 +157,7 @@
                             @isset($header)
                                 {{ $header }}
                             @else
-                                <h1 class="h5 mb-0 fw-bold text-dark">Jajal Medical Case Management</h1>
+                                <h1 class="h5 mb-0 fw-bold text-dark">Medical web app</h1>
                             @endisset
                         </div>
                     </div>
@@ -246,7 +246,7 @@
             <!-- Footer -->
             <footer class="bg-white border-top py-3 text-center text-muted small mt-auto">
                 <div class="container-fluid px-3">
-                    <span>&copy; {{ date('Y') }} Jajal Medical &bull; Medical Case Management System</span>
+                    <span>&copy; {{ date('Y') }} Medical web app &bull; Medical Case Management System</span>
                     <span class="mx-2">&bull;</span>
                     <span>Medical Device Implant Tracking</span>
                 </div>

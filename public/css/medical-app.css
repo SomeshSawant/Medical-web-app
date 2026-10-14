@@ -1,5 +1,5 @@
 /**
- * Jajal Medical — Medical Case Management System
+ * Medical web app — Medical Case Management System
  * Custom Design System Stylesheet
  * 
  * Palette:
@@ -152,24 +152,26 @@ body {
 }
 
 /* Buttons */
-.btn-jajal-primary {
+.btn-medical-primary, .btn-jajal-primary {
     background-color: var(--jm-navy);
     border-color: var(--jm-navy);
     color: #ffffff;
     font-weight: 500;
 }
+.btn-medical-primary:hover, .btn-medical-primary:focus,
 .btn-jajal-primary:hover, .btn-jajal-primary:focus {
     background-color: var(--jm-navy-hover);
     border-color: var(--jm-navy-hover);
     color: #ffffff;
 }
 
-.btn-jajal-teal {
+.btn-medical-teal, .btn-jajal-teal {
     background-color: var(--jm-teal);
     border-color: var(--jm-teal);
     color: #ffffff;
     font-weight: 500;
 }
+.btn-medical-teal:hover, .btn-medical-teal:focus,
 .btn-jajal-teal:hover, .btn-jajal-teal:focus {
     background-color: var(--jm-teal-hover);
     border-color: var(--jm-teal-hover);

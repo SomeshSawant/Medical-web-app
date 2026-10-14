@@ -1,4 +1,4 @@
-# Requirement Traceability Matrix — Jajal Medical Assignment
+# Requirement Traceability Matrix — Medical Web App Assignment
 
 In medical device software and GAMP/FDA 21 CFR Part 11 design control frameworks, traceability establishes an unbroken audit trail linking input user requirements to technical implementation outputs and automated verification tests.
 

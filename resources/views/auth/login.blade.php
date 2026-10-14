@@ -5,7 +5,7 @@
             <div class="jm-brand-icon mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.75rem;">
                 <i class="bi bi-hospital"></i>
             </div>
-            <h2 class="h4 fw-bold text-dark mb-1">Jajal Medical</h2>
+            <h2 class="h4 fw-bold text-dark mb-1">Medical web app</h2>
             <p class="text-muted small mb-0">Medical Case Management System</p>
         </div>
 
@@ -18,17 +18,17 @@
                 <span class="badge bg-secondary" style="font-size: 0.65rem;">Click to Autofill</span>
             </div>
             <div class="d-flex flex-column gap-1.5">
-                <button type="button" class="btn btn-sm btn-outline-danger text-start py-1 px-2 d-flex justify-content-between align-items-center" onclick="fillCredentials('admin@jajalmedical.test', 'Admin@12345')">
+                <button type="button" class="btn btn-sm btn-outline-danger text-start py-1 px-2 d-flex justify-content-between align-items-center" onclick="fillCredentials('admin@medicalapp.test', 'Admin@12345')">
                     <span class="small fw-semibold">Admin (Full Access)</span>
-                    <span class="badge bg-danger-subtle text-danger">admin@jajalmedical.test</span>
+                    <span class="badge bg-danger-subtle text-danger">admin@medicalapp.test</span>
                 </button>
-                <button type="button" class="btn btn-sm btn-outline-success text-start py-1 px-2 d-flex justify-content-between align-items-center" onclick="fillCredentials('viewer@jajalmedical.test', 'Viewer@12345')">
+                <button type="button" class="btn btn-sm btn-outline-success text-start py-1 px-2 d-flex justify-content-between align-items-center" onclick="fillCredentials('viewer@medicalapp.test', 'Viewer@12345')">
                     <span class="small fw-semibold">Viewer (Read-Only)</span>
-                    <span class="badge bg-success-subtle text-success">viewer@jajalmedical.test</span>
+                    <span class="badge bg-success-subtle text-success">viewer@medicalapp.test</span>
                 </button>
-                <button type="button" class="btn btn-sm btn-outline-info text-start py-1 px-2 d-flex justify-content-between align-items-center" onclick="fillCredentials('engineer@jajalmedical.test', 'Engineer@12345')">
+                <button type="button" class="btn btn-sm btn-outline-info text-start py-1 px-2 d-flex justify-content-between align-items-center" onclick="fillCredentials('engineer@medicalapp.test', 'Engineer@12345')">
                     <span class="small fw-semibold">Engineer (Bonus Role)</span>
-                    <span class="badge bg-info-subtle text-info">engineer@jajalmedical.test</span>
+                    <span class="badge bg-info-subtle text-info">engineer@medicalapp.test</span>
                 </button>
             </div>
         </div>
@@ -59,12 +59,12 @@
                     <input id="email" 
                            type="email" 
                            name="email" 
-                           value="{{ old('email', 'admin@jajalmedical.test') }}" 
+                           value="{{ old('email', 'admin@medicalapp.test') }}" 
                            required 
                            autofocus 
                            autocomplete="username" 
                            class="form-control @error('email') is-invalid @enderror" 
-                           placeholder="name@jajalmedical.test">
+                           placeholder="name@medicalapp.test">
                     @error('email')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -107,7 +107,7 @@
 
             <!-- Submit Button -->
             <div class="d-grid mb-3">
-                <button type="submit" class="btn btn-jajal-primary py-2.5 fw-semibold shadow-sm">
+                <button type="submit" class="btn btn-medical-primary py-2.5 fw-semibold shadow-sm">
                     <i class="bi bi-box-arrow-in-right me-1"></i> Sign In to Clinical System
                 </button>
             </div>

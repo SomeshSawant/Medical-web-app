@@ -1,14 +1,12 @@
-# Jajal Medical — Medical Case Management System
+# Medical web app — Medical Case Management System
 
 A production-grade, secure web application built with **Laravel**, **MySQL**, and **Bootstrap 5** to manage surgical cases and implant device tracking from initial draft through clinical completion.
-
-Developed to satisfy all requirements of the **Jajal Medical Software Developer Intern Practical Assignment (October 8, 2026)**.
 
 ---
 
 ## 1. Project Overview & Clinical Context
 
-In medical device logistics and orthopedic surgical workflows, accuracy, data integrity, and strict traceability are paramount. **Jajal Medical Case Management System** provides clinical teams, sales representatives, and quality assurance auditors with:
+In medical device logistics and orthopedic surgical workflows, accuracy, data integrity, and strict traceability are paramount. **Medical web app** provides clinical teams, sales representatives, and quality assurance auditors with:
 - A real-time, database-driven clinical case management dashboard.
 - Strict role-based access control (RBAC) separating administrative actions from read-only auditing.
 - Search, filtering, and sorting across surgical implant procedures.
@@ -55,9 +53,9 @@ All test accounts are automatically provisioned when executing `php artisan db:s
 
 | Role | Email Address | Password | Intended Evaluation Purpose |
 |---|---|---|---|
-| **Admin** | `admin@jajalmedical.test` | `Admin@12345` | Full administrative control: Create, Edit, Status Transition, Delete |
-| **Viewer** | `viewer@jajalmedical.test` | `Viewer@12345` | Read-only auditor: Browse, Search, View Details; Blocked from write actions |
-| **Engineer** *(Bonus)* | `engineer@jajalmedical.test` | `Engineer@12345` | Technical specialist: Create, Edit, Transition Status; Blocked from Delete |
+| **Admin** | `admin@medicalapp.test` | `Admin@12345` | Full administrative control: Create, Edit, Status Transition, Delete |
+| **Viewer** | `viewer@medicalapp.test` | `Viewer@12345` | Read-only auditor: Browse, Search, View Details; Blocked from write actions |
+| **Engineer** *(Bonus)* | `engineer@medicalapp.test` | `Engineer@12345` | Technical specialist: Create, Edit, Transition Status; Blocked from Delete |
 
 > **Quick-Fill Feature**: The login screen (`/login`) includes one-click buttons to automatically fill these test credentials for rapid evaluation.
 
@@ -191,7 +189,7 @@ The REST API is secured with **Laravel Sanctum Bearer Tokens** and produces stan
 curl -X POST http://localhost:8000/api/login \
   -H "Accept: application/json" \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@jajalmedical.test","password":"Admin@12345"}'
+  -d '{"email":"admin@medicalapp.test","password":"Admin@12345"}'
 ```
 
 #### 2. Retrieve Paginated Cases:
@@ -229,7 +227,7 @@ An importable Postman collection is included in the project root:
 1. Open Postman.
 2. Click **Import** in the upper left corner.
 3. Drag and drop or browse to `postman_collection.json`.
-4. The collection **Jajal Medical — Medical Case Management API** will appear.
+4. The collection **Medical web app — Case Management API** will appear.
 5. In the collection variables, verify `base_url` is set to `http://localhost:8000`.
 6. Run the **Login (Admin)** request. A test script automatically captures the Sanctum Bearer token and stores it into the collection `{{token}}` variable for subsequent requests.
 

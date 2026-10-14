@@ -6,7 +6,7 @@
                 <p class="text-muted small mb-0">Browse, search, and manage clinical implant records across the surgical network</p>
             </div>
             @can('create', App\Models\MedicalCase::class)
-                <a href="{{ route('cases.create') }}" class="btn btn-jajal-teal btn-sm shadow-sm">
+                <a href="{{ route('cases.create') }}" class="btn btn-medical-teal btn-sm shadow-sm">
                     <i class="bi bi-plus-circle me-1"></i> Create New Case
                 </a>
             @endcan
@@ -59,7 +59,7 @@
 
                 <!-- Filter Actions -->
                 <div class="col-12 col-md-3 d-flex gap-2">
-                    <button type="submit" class="btn btn-jajal-primary flex-grow-1">
+                    <button type="submit" class="btn btn-medical-primary flex-grow-1">
                         <i class="bi bi-funnel me-1"></i> Apply Filter
                     </button>
                     @if(request()->hasAny(['search', 'status', 'priority', 'sort']))
@@ -230,7 +230,7 @@
                                         </a>
                                     @endif
                                     @can('create', App\Models\MedicalCase::class)
-                                        <a href="{{ route('cases.create') }}" class="btn btn-sm btn-jajal-teal">
+                                        <a href="{{ route('cases.create') }}" class="btn btn-sm btn-medical-teal">
                                             <i class="bi bi-plus-circle me-1"></i> Create New Case
                                         </a>
                                     @endcan

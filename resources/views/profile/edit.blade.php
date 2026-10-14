@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="d-flex align-items-center gap-3 mt-4">
-                            <button type="submit" class="btn btn-jajal-primary btn-sm">
+                            <button type="submit" class="btn btn-medical-primary btn-sm">
                                 <i class="bi bi-save me-1"></i> Save Changes
                             </button>
                             @if (session('status') === 'profile-updated')
@@ -103,7 +103,7 @@
                         </div>
 
                         <div class="d-flex align-items-center gap-3 mt-4">
-                            <button type="submit" class="btn btn-jajal-primary btn-sm">
+                            <button type="submit" class="btn btn-medical-primary btn-sm">
                                 <i class="bi bi-key me-1"></i> Update Password
                             </button>
                             @if (session('status') === 'password-updated')

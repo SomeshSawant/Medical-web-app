@@ -14,14 +14,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Demo account passwords matching Jajal Medical assignment requirements
+        // Demo account passwords matching assignment requirements
         $adminPassword = env('SEED_ADMIN_PASSWORD', 'Admin@12345');
         $viewerPassword = env('SEED_VIEWER_PASSWORD', 'Viewer@12345');
         $engineerPassword = env('SEED_ENGINEER_PASSWORD', 'Engineer@12345');
 
-        // Required Demo Accounts
+        // Primary Demo Accounts (Medical Web App)
         $admin = User::updateOrCreate(
-            ['email' => 'admin@jajalmedical.test'],
+            ['email' => 'admin@medicalapp.test'],
             [
                 'name' => 'Dr. Robert Carter (Admin)',
                 'password' => Hash::make($adminPassword),
@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         );
 
         $viewer = User::updateOrCreate(
-            ['email' => 'viewer@jajalmedical.test'],
+            ['email' => 'viewer@medicalapp.test'],
             [
                 'name' => 'Auditor Sarah Lynn (Viewer)',
                 'password' => Hash::make($viewerPassword),
@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
         );
 
         $engineer = User::updateOrCreate(
-            ['email' => 'engineer@jajalmedical.test'],
+            ['email' => 'engineer@medicalapp.test'],
             [
                 'name' => 'Marcus Vance (Engineer)',
                 'password' => Hash::make($engineerPassword),

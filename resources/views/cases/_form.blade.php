@@ -167,7 +167,7 @@
     <a href="{{ $case->exists ? route('cases.show', $case) : route('cases.index') }}" class="btn btn-outline-secondary">
         <i class="bi bi-x-circle me-1"></i> Cancel
     </a>
-    <button type="submit" class="btn btn-jajal-primary px-4 shadow-sm">
+    <button type="submit" class="btn btn-medical-primary px-4 shadow-sm">
         <i class="bi bi-check2-circle me-1"></i> {{ $case->exists ? 'Update Case Specifications' : 'Save & Register Case' }}
     </button>
 </div>

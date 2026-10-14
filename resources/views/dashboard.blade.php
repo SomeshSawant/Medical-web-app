@@ -10,7 +10,7 @@
                     <i class="bi bi-list-ul me-1"></i> View All Cases
                 </a>
                 @can('create', App\Models\MedicalCase::class)
-                    <a href="{{ route('cases.create') }}" class="btn btn-jajal-teal btn-sm shadow-sm">
+                    <a href="{{ route('cases.create') }}" class="btn btn-medical-teal btn-sm shadow-sm">
                         <i class="bi bi-plus-circle me-1"></i> Create Case
                     </a>
                 @endcan
@@ -175,7 +175,7 @@
                 <h5 class="card-title h6 fw-bold mb-0 text-dark">
                     <i class="bi bi-clock-history me-1 text-primary"></i> Recently Created &amp; Updated Cases
                 </h5>
-                <small class="text-muted">Latest surgical implants registered in Jajal Medical database</small>
+                <small class="text-muted">Latest surgical implants registered in Medical web app database</small>
             </div>
             <a href="{{ route('cases.index') }}" class="btn btn-sm btn-outline-secondary">
                 View All Directory
@@ -259,7 +259,7 @@
                                     <h6 class="fw-semibold">No medical cases recorded yet.</h6>
                                     <p class="small text-muted mb-3">Begin by seeding the database or registering a new implant case.</p>
                                     @can('create', App\Models\MedicalCase::class)
-                                        <a href="{{ route('cases.create') }}" class="btn btn-sm btn-jajal-teal">
+                                        <a href="{{ route('cases.create') }}" class="btn btn-sm btn-medical-teal">
                                             <i class="bi bi-plus-circle me-1"></i> Create First Case
                                         </a>
                                     @endcan
